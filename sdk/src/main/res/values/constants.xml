@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="metadata_actions" tools:ignore="ExtraTranslation">com.robotemi.sdk.metadata.ACTIONS</string>
+    <string name="metadata_contexts" tools:ignore="ExtraTranslation">com.robotemi.sdk.metadata.CONTEXTS</string>
+    <string name="metadata_hints" tools:ignore="ExtraTranslation">com.robotemi.sdk.metadata.HINTS</string>
+    <string name="metadata_skill" tools:ignore="ExtraTranslation">com.robotemi.sdk.metadata.SKILL</string>
+    <string name="metadata_visibility" tools:ignore="ExtraTranslation">com.robotemi.sdk.metadata.VISIBILITY</string>
+    <string name="metadata_kiosk" tools:ignore="ExtraTranslation">com.robotemi.sdk.metadata.KIOSK</string>
+    <string name="metadata_open_without_internet" tools:ignore="ExtraTranslation">com.robotemi.sdk.metadata.OPEN_WITHOUT_INTERNET</string>
+    <string name="metadata_assistant" tools:ignore="ExtraTranslation">com.robotemi.sdk.metadata.ASSISTANT</string>
+    <string name="metadata_override_nlu" tools:ignore="ExtraTranslation">com.robotemi.sdk.metadata.OVERRIDE_NLU</string>
+    <string name="metadata_override_stt" tools:ignore="ExtraTranslation">com.robotemi.sdk.metadata.OVERRIDE_STT</string>
+    <string name="metadata_override_tts" tools:ignore="ExtraTranslation">com.robotemi.sdk.metadata.OVERRIDE_TTS</string>
+    <string name="metadata_override_conversation_layer" tools:ignore="ExtraTranslation">com.robotemi.sdk.metadata.OVERRIDE_CONVERSATION_LAYER</string>
+    <string name="metadata_permissions" tools:ignore="ExtraTranslation">com.robotemi.sdk.metadata.PERMISSIONS</string>
+
+    <integer name="metadata_ui_flag_default">0</integer>
+    <integer name="metadata_ui_flag_hide_top_bar">1</integer>
+    <integer name="metadata_ui_mode_default">0</integer>
+    <integer name="metadata_ui_mode_fullscreen">1</integer>
+    <integer name="metadata_ui_mode_immersive">2</integer>
+    <integer name="metadata_ui_mode_blend">3</integer>
+    <integer name="metadata_ui_mode_hide_all_top_bar_elements">4</integer>
+
+    <string name="permission_face_recognition" tools:ignore="ExtraTranslation">com.robotemi.permission.face_recognition</string>
+    <string name="permission_map" tools:ignore="ExtraTranslation">com.robotemi.permission.map</string>
+    <string name="permission_settings" tools:ignore="ExtraTranslation">com.robotemi.permission.settings</string>
+</resources>

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBlack"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:paddingTop="70dp"
+    android:weightSum="4"
+    tools:context=".MainActivity"
+    tools:ignore="HardcodedText">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/etSaveLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="@string/enter_location"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorGrey" />
+
+            <Button
+                android:id="@+id/btnSaveLocation"
+                style="@style/ButtonCommon"
+                android:text="@string/save_location" />
+
+            <EditText
+                android:id="@+id/etGoTo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="@string/go_to_location"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorGrey" />
+
+            <Button
+                android:id="@+id/btnGoTo"
+                style="@style/ButtonCommon"
+                android:text="@string/go_to" />
+
+            <EditText
+                android:id="@+id/etSpeak"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="@string/enter_speech"
+                android:inputType="textPersonName"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorGrey" />
+
+            <Button
+                android:id="@+id/btnSpeak"
+                style="@style/ButtonCommon"
+                android:text="@string/speak" />
+
+            <EditText
+                android:id="@+id/etDistance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:gravity="center_horizontal"
+                android:hint="Please enter the distance"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorGrey" />
+
+            <Button
+                android:id="@+id/btnStartDetectionModeWithDistance"
+                style="@style/ButtonCommon"
+                android:text="Start Detection Mode with Distance" />
+
+            <EditText
+                android:id="@+id/etNlu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:hint="@string/enter_speech"
+                android:inputType="text"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorGrey" />
+
+            <Button
+                android:id="@+id/btnNlu"
+                style="@style/ButtonCommon"
+                android:text="Start NLU" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="50dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etX"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:hint="x"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorGrey" />
+
+                <EditText
+                    android:id="@+id/etY"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:hint="y"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorGrey" />
+
+                <EditText
+                    android:id="@+id/etYaw"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:hint="yaw"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorGrey" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnGoToPosition"
+                style="@style/ButtonCommon"
+                android:text="Go To Position" />
+
+            <TextView
+                android:id="@+id/tvDetectionState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:lines="1"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                tools:text="DetectionState" />
+
+            <TextView
+                android:id="@+id/tvDetection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:lines="1"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                tools:text="DetectionView" />
+
+            <TextView
+                android:id="@+id/tvGreetMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:lines="1"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                tools:text="GreetModeView" />
+
+            <TextView
+                android:id="@+id/tvPosition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:lines="1"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                tools:text="PositionView" />
+
+            <TextView
+                android:id="@+id/tvDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/colorWhite"
+                android:textSize="16sp"
+                tools:text="DistanceView" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/group_buttons"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingHorizontal="10dp"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/group_settings_and_status"
+                    layout="@layout/group_settings_and_status"
+                    tools:visibility="visible"
+                    android:visibility="gone"/>
+
+                <include
+                    android:id="@+id/group_map_and_movement"
+                    layout="@layout/group_map_and_movement"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/group_app_and_permission"
+                    layout="@layout/group_app_and_permission"
+                    android:visibility="gone" />
+
+                <include
+                    android:id="@+id/group_resources"
+                    layout="@layout/group_resources"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewFace"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:adjustViewBounds="true"
+            android:visibility="gone"
+            tools:src="@mipmap/ic_launcher"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tvContinuousFace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_toEndOf="@id/imageViewFace"
+            android:textColor="@color/colorWhite"
+            android:textSize="30sp"
+            tools:text="ContinuousFace" />
+
+        <com.robotemi.sdk.sample.TtsVisualizerView
+            android:id="@+id/visualizerView"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@id/imageViewFace"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvLog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/visualizerView"
+            android:layout_marginBottom="50dp"
+            android:lineSpacingExtra="5dp"
+            android:padding="20dp"
+            android:scrollbars="vertical"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            tools:text="log pasdfasfasdfasfasdfanel" />
+
+        <Button
+            android:id="@+id/btnClearLog"
+            style="@style/ButtonCommon"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="0dp"
+            android:text="Clear"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+</LinearLayout>

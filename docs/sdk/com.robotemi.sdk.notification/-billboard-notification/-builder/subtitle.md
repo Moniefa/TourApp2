@@ -1,0 +1,6 @@
+//[sdk](../../../../index.md)/[com.robotemi.sdk.notification](../../index.md)/[BillboardNotification](../index.md)/[Builder](index.md)/[subtitle](subtitle.md)
+
+# subtitle
+
+[androidJvm]\
+open fun [subtitle](subtitle.md)(subtitle: [String](https://docs.oracle.com/javase/8/docs/api/java/lang/String.html)): [BillboardNotification.Builder](index.md)
