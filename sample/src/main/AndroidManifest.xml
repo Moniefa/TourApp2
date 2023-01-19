@@ -15,13 +15,26 @@
         android:theme="@style/SkillTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:screenOrientation="fullSensor">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".LocationActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-        </activity>
-        <!-- Adding this meta-data is required in order to display this app in temi's launcher app -->
+        </activity> <!-- Adding this meta-data is required in order to display this app in temi's launcher app -->
         <meta-data
             android:name="com.robotemi.sdk.metadata.SKILL"
             android:value="@string/app_name" />
@@ -54,15 +67,6 @@
             android:name="@string/metadata_permissions"
             android:value="com.robotemi.permission.face_recognition,                            com.robotemi.permission.map,                            com.robotemi.permission.settings,                            com.robotemi.permission.sequence,                            com.robotemi.permission.meetings" />
 
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="fullSensor">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".MapActivity" />
         <activity android:name=".SerialActivity" />
 
