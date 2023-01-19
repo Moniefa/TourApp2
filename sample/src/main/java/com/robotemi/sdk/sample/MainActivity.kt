@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity()//, AdapterView.OnItemSelectedListener
 
         val languages = arrayOf("English", "Spanish", "French", "German")
 
-        //val locations = resources.getStringArray(R.array.Locations)
 
         val spinner : Spinner = findViewById(R.id.spinner)
 
