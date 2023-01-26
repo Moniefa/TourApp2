@@ -10,6 +10,8 @@ android {
         minSdkVersion 23
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 23
+        versionCode 1
+        versionName VERSION_NAME
         buildConfigField 'String', 'SDK_SERVICE_CLASS_NAME', '\"com.roboteam.teamy.sdk.SdkService\"'
     }
     buildTypes {
@@ -19,7 +21,6 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
-    namespace 'com.robotemi.sdk'
 }
 
 signing {

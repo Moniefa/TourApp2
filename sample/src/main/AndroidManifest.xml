@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.robotemi.sdk.sample">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -9,74 +10,84 @@
         android:allowBackup="true"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
-        android:largeHeap="true"
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
         android:theme="@style/SkillTheme"
+        android:largeHeap="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:screenOrientation="fullSensor">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".LocationActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity> <!-- Adding this meta-data is required in order to display this app in temi's launcher app -->
+        <!-- Adding this meta-data is required in order to display this app in temi's launcher app -->
         <meta-data
             android:name="com.robotemi.sdk.metadata.SKILL"
             android:value="@string/app_name" />
+
         <!--
         This meta-data is telling the launcher which nlp responses should
         invoke the NlpResponse listener's onNlpResponse method sending it these intents
         -->
         <meta-data
             android:name="com.robotemi.sdk.metadata.ACTIONS"
-            android:value="home.welcome,                            home.dance,                            home.sleep" />
+            android:value="home.welcome,
+                           home.dance,
+                           home.sleep" />
+
         <meta-data
             android:name="com.robotemi.sdk.metadata.KIOSK"
             android:value="true" />
+
         <meta-data
             android:name="@string/metadata_open_without_internet"
-            android:value="true" /> <!-- Set value to true to cover original voice flow[NLU]. -->
+            android:value="true" />
+
+        <!-- Set value to true to cover original voice flow[NLU]. -->
         <meta-data
             android:name="@string/metadata_override_nlu"
-            android:value="false" /> <!-- Set value to true to cover original voice flow[ASR]. -->
+            android:value="false" />
+
+        <!-- Set value to true to cover original voice flow[ASR]. -->
         <meta-data
             android:name="@string/metadata_override_stt"
-            android:value="false" /> <!-- Set value to true to cover original voice flow[TTS]. -->
+            android:value="false" />
+
+        <!-- Set value to true to cover original voice flow[TTS]. -->
         <meta-data
             android:name="@string/metadata_override_tts"
-            android:value="false" /> <!-- Set value to true to cover original conversation layer -->
+            android:value="false" />
+
+        <!-- Set value to true to cover original conversation layer -->
         <meta-data
             android:name="@string/metadata_override_conversation_layer"
             android:value="false" />
+
         <meta-data
             android:name="@string/metadata_permissions"
-            android:value="com.robotemi.permission.face_recognition,                            com.robotemi.permission.map,                            com.robotemi.permission.settings,                            com.robotemi.permission.sequence,                            com.robotemi.permission.meetings" />
+            android:value="com.robotemi.permission.face_recognition,
+                           com.robotemi.permission.map,
+                           com.robotemi.permission.settings,
+                           com.robotemi.permission.sequence,
+                           com.robotemi.permission.meetings" />
+
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="fullSensor">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity android:name=".MapActivity" />
+
         <activity android:name=".SerialActivity" />
 
-        <receiver
-            android:name=".BootCompleteReceiver"
+        <receiver android:name=".BootCompleteReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.robotemi.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>
