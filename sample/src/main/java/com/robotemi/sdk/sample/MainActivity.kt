@@ -2137,4 +2137,21 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         //CREATE SOME VARIABLES AND MONITOR THE VARIABLES
         printLog("distance to destination: destination=$location, distance=$distance") //important as well
     }
+
+
+    /**
+     * attempt at stopping location
+     * */
+    fun onStopFunction(view: View) {
+        // get current position
+
+        //
+        for (location in robot.locations) {
+            // if current location == one of the locations
+            //stop
+
+            // else continue
+        }
+    }
+
 }
