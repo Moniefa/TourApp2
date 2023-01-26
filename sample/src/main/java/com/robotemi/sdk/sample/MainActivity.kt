@@ -115,8 +115,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-        verifyStoragePermissions(this)
+//        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+//        verifyStoragePermissions(this)
         robot = getInstance()
         initOnClickListener()
         tvLog.movementMethod = ScrollingMovementMethod.getInstance()
@@ -796,7 +796,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         hideKeyboard()
     }
 
-    /**
+    /**SAVE LOCATIONS IS IMPORTANT AS WELL
      * This is an example of saving locations.
      */
     private fun saveLocation() {
@@ -811,7 +811,10 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         hideKeyboard()
     }
 
-    /**
+    /**IMPORTANT IS HERE**** we need to look at robot go to
+     * needit to go but add code to sit and wait until it gets there
+     * look at the next function which is
+     *
      * goTo checks that the location sent is saved then goes to that location.
      */
     private fun goTo() {
@@ -830,7 +833,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         }
     }
 
-    /**
+    /**IMPORTANT THIS STOPS THE ROBOT
      * stopMovement() is used whenever you want the robot to stop any movement
      * it is currently doing.
      */
@@ -929,7 +932,9 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         }
     }
 
-    /**
+    /**IMPORTANT THIS IS IMPORTANT ******
+     * ROBOT.SPEAK DIAGLOG
+     *
      * Display the saved locations in a dialog
      */
     private fun savedLocationsDialog() {
@@ -966,7 +971,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     /**
      * When adding the Nlp Listener to your project you need to implement this method
      * which will listen for specific intents and allow you to respond accordingly.
-     *
+     *IMPORTANT AS WELL *****
+     * ROBOT.SPEAK(CREATE FUNCTION ("SPEAK SOMETHING)
      *
      * See AndroidManifest.xml for reference on adding each intent.
      */
@@ -979,7 +985,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
             ACTION_HOME_DANCE -> {
                 val t = System.currentTimeMillis()
                 val end = t + 5000
-                while (System.currentTimeMillis() < end) {
+                while (System.currentTimeMillis() < end) { /**KEEP TEMI (DISTANCE TO LOCATION ) AROUND IMPORTANT WAIT UNTIL WE ARE CLOSE ENOUGH**/
                     robot.skidJoy(0f, 1f)
                 }
             }
@@ -2125,6 +2131,10 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     }
 
     override fun onDistanceToDestinationChanged(location: String, distance: Float) {
-        printLog("distance to destination: destination=$location, distance=$distance")
+        // SPEAK THIS
+
+        // POSSIBLY ADD CODE TO THIS
+        //CREATE SOME VARIABLES AND MONITOR THE VARIABLES
+        printLog("distance to destination: destination=$location, distance=$distance") //important as well
     }
 }
