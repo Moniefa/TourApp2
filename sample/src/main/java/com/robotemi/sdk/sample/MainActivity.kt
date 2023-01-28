@@ -26,6 +26,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.annotation.CheckResult
 import androidx.appcompat.app.AppCompatActivity
@@ -119,7 +120,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 //        verifyStoragePermissions(this)
         robot = getInstance()
         initOnClickListener()
-        tvLog.movementMethod = ScrollingMovementMethod.getInstance()
+        //tvLog.movementMethod = ScrollingMovementMethod.getInstance()
         robot.addOnRequestPermissionResultListener(this)
         robot.addOnTelepresenceEventChangedListener(this)
         robot.addOnFaceRecognizedListener(this)
@@ -140,11 +141,39 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
             robot.setTtsService(this)
         }
         val greetModeState = intent.extras?.getInt(SdkConstants.INTENT_ACTION_GREET_MODE_STATE)
-        if (greetModeState != null) {
-            tvGreetMode.text = "Greet Mode -> ${OnGreetModeStateChangedListener.State.fromValue(greetModeState)}"
-        }
+//        if (greetModeState != null) {
+//            tvGreetMode.text = "Greet Mode -> ${OnGreetModeStateChangedListener.State.fromValue(greetModeState)}"
+//        }
         debugReceiver = TemiBroadcastReceiver()
         registerReceiver(debugReceiver, IntentFilter(TemiBroadcastReceiver.ACTION_DEBUG));
+
+        val languages = arrayOf("English", "Spanish", "French", "German")
+
+
+        val spinner : Spinner = findViewById(R.id.spinner)
+
+        if (spinner != null) {
+            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter;
+
+            spinner.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                    Toast.makeText(this@MainActivity,
+                        getString(R.string.selected_item) + " " +
+                                "" + languages[position], Toast.LENGTH_SHORT).show()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    // write code to perform some action
+                }
+            }
+        }
+    }
+
+    fun onGoFunction(view: View) {
+        Log.d("GO to Location", "Test")
     }
 
     /**
@@ -252,49 +281,49 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     private fun initOnClickListener() {
         btnGroupSystem.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                group_settings_and_status.visibility = View.VISIBLE
+                //group_settings_and_status.visibility = View.VISIBLE
                 btnGroupSystem.isEnabled = false
                 btnGroupNavigation.isChecked = false
                 btnGroupPermission.isChecked = false
                 btnGroupResources.isChecked = false
             } else {
-                group_settings_and_status.visibility = View.GONE
+                //group_settings_and_status.visibility = View.GONE
                 btnGroupSystem.isEnabled = true
             }
         }
         btnGroupNavigation.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                group_map_and_movement.visibility = View.VISIBLE
+                //group_map_and_movement.visibility = View.VISIBLE
                 btnGroupSystem.isChecked = false
                 btnGroupNavigation.isEnabled = false
                 btnGroupPermission.isChecked = false
                 btnGroupResources.isChecked = false
             } else {
-                group_map_and_movement.visibility = View.GONE
+                //group_map_and_movement.visibility = View.GONE
                 btnGroupNavigation.isEnabled = true
             }
         }
         btnGroupPermission.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                group_app_and_permission.visibility = View.VISIBLE
+                //group_app_and_permission.visibility = View.VISIBLE
                 btnGroupSystem.isChecked = false
                 btnGroupNavigation.isChecked = false
                 btnGroupPermission.isEnabled = false
                 btnGroupResources.isChecked = false
             } else {
-                group_app_and_permission.visibility = View.GONE
+                //group_app_and_permission.visibility = View.GONE
                 btnGroupPermission.isEnabled = true
             }
         }
         btnGroupResources.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                group_resources.visibility = View.VISIBLE
+                //group_resources.visibility = View.VISIBLE
                 btnGroupSystem.isChecked = false
                 btnGroupNavigation.isChecked = false
                 btnGroupPermission.isChecked = false
                 btnGroupResources.isEnabled = false
             } else {
-                group_resources.visibility = View.GONE
+                //group_resources.visibility = View.GONE
                 btnGroupResources.isEnabled = true
             }
         }
@@ -303,9 +332,9 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
         btnGroupSystem.isChecked = true
 
-        btnSpeak.setOnClickListener { speak() }
-        btnSaveLocation.setOnClickListener { saveLocation() }
-        btnGoTo.setOnClickListener { goTo() }
+//        btnSpeak.setOnClickListener { speak() }
+//        btnSaveLocation.setOnClickListener { saveLocation() }
+//        btnGoTo.setOnClickListener { goTo() }
 
         btnStopMovement.setOnClickListener { stopMovement() }
         btnFollow.setOnClickListener { followMe() }
@@ -371,15 +400,15 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         btnGetVolume.setOnClickListener { getVolume() }
         btnSetVolume.setOnClickListener { setVolume() }
         btnRequestToBeKioskApp.setOnClickListener { requestToBeKioskApp() }
-        btnStartDetectionModeWithDistance.setOnClickListener { startDetectionWithDistance() }
+        //btnStartDetectionModeWithDistance.setOnClickListener { startDetectionWithDistance() }
         btnFetchSequence.setOnClickListener { getAllSequences() }
         btnPlayFirstSequence.setOnClickListener { playFirstSequence() }
         btnPlayFirstSequenceWithoutPlayer.setOnClickListener { playFirstSequenceWithoutPlayer() }
         btnFetchMap.setOnClickListener { getMap() }
-        btnClearLog.setOnClickListener { clearLog() }
-        btnNlu.setOnClickListener { startNlu() }
+        //btnClearLog.setOnClickListener { clearLog() }
+        //btnNlu.setOnClickListener { startNlu() }
         btnGetAllContacts.setOnClickListener { getAllContacts() }
-        btnGoToPosition.setOnClickListener { goToPosition() }
+        //btnGoToPosition.setOnClickListener { goToPosition() }
         btnStartTelepresenceToCenter.setOnClickListener { startTelepresenceToCenter() }
         btnCreateLinkBasedMeeting.setOnClickListener {
             if (requestPermissionIfNeeded(Permission.MEETINGS, REQUEST_CODE_NORMAL)) {
@@ -755,7 +784,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      * Have the robot speak while displaying what is being said.
      */
     private fun speak() {
-        val text = etSpeak.text.toString()
+        //val text = etSpeak.text.toString()
         val languages = ArrayList<TtsRequest.Language>()
         languages.add(TtsRequest.Language.SYSTEM)
         languages.add(TtsRequest.Language.EN_US)
@@ -784,14 +813,14 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
             .setTitle("Select Speaking Language")
             .setAdapter(adapter, null)
             .create()
-        dialog.listView.onItemClickListener =
-            OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
-                val ttsRequest =
-                    create(text, language = adapter.getItem(position)!!, showAnimationOnly = true)
-                robot.speak(ttsRequest)
-                printLog("Speak: ${adapter.getItem(position)}")
-                dialog.dismiss()
-            }
+//        dialog.listView.onItemClickListener =
+//            OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
+//                val ttsRequest =
+//                    create(text, language = adapter.getItem(position)!!, showAnimationOnly = true)
+//                robot.speak(ttsRequest)
+//                printLog("Speak: ${adapter.getItem(position)}")
+//                dialog.dismiss()
+//            }
         dialog.show()
         hideKeyboard()
     }
@@ -800,14 +829,14 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      * This is an example of saving locations.
      */
     private fun saveLocation() {
-        val location =
-            etSaveLocation.text.toString().lowercase().trim { it <= ' ' }
-        val result = robot.saveLocation(location)
-        if (result) {
-            robot.speak(create("I've successfully saved the $location location.", true))
-        } else {
-            robot.speak(create("Saved the $location location failed.", true))
-        }
+//        val location =
+//            etSaveLocation.text.toString().lowercase().trim { it <= ' ' }
+//        val result = robot.saveLocation(location)
+//        if (result) {
+//            robot.speak(create("I've successfully saved the $location location.", true))
+//        } else {
+//            robot.speak(create("Saved the $location location failed.", true))
+//        }
         hideKeyboard()
     }
 
@@ -818,19 +847,19 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      * goTo checks that the location sent is saved then goes to that location.
      */
     private fun goTo() {
-        for (location in robot.locations) {
-            if (location == etGoTo.text.toString().lowercase()
-                    .trim { it <= ' ' }
-            ) {
-                robot.goTo(
-                    etGoTo.text.toString().lowercase().trim { it <= ' ' },
-                    backwards = false,
-                    noBypass = false,
-                    speedLevel = SpeedLevel.HIGH
-                )
-                hideKeyboard()
-            }
-        }
+//        for (location in robot.locations) {
+//            if (location == etGoTo.text.toString().lowercase()
+//                    .trim { it <= ' ' }
+//            ) {
+//                robot.goTo(
+//                    etGoTo.text.toString().lowercase().trim { it <= ' ' },
+//                    backwards = false,
+//                    noBypass = false,
+//                    speedLevel = SpeedLevel.HIGH
+//                )
+//                hideKeyboard()
+//            }
+//        }
     }
 
     /**IMPORTANT THIS STOPS THE ROBOT
@@ -858,20 +887,20 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     private fun skidJoy() {
         val t = System.currentTimeMillis()
         val end = t + 500
-        val speedX = try {
-            etX.text.toString().toFloat()
-        } catch (e: Exception) {
-            1f
-        }
-        val speedY = try {
-            etY.text.toString().toFloat()
-        } catch (e: Exception) {
-            0f
-        }
-        printLog("speedX: $speedX, speedY: $speedY")
-        while (System.currentTimeMillis() < end) {
-            robot.skidJoy(speedX, speedY)
-        }
+//        val speedX = try {
+//            etX.text.toString().toFloat()
+//        } catch (e: Exception) {
+//            1f
+//        }
+//        val speedY = try {
+//            etY.text.toString().toFloat()
+//        } catch (e: Exception) {
+//            0f
+//        }
+//        printLog("speedX: $speedX, speedY: $speedY")
+//        while (System.currentTimeMillis() < end) {
+//            robot.skidJoy(speedX, speedY)
+//        }
     }
 
     /**
@@ -879,12 +908,12 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      * to tilt to and at which speed.
      */
     private fun tiltAngle() {
-        val speed = try {
-            etDistance.text.toString().toFloat()
-        } catch (e: Exception) {
-            1f
-        }
-        robot.tiltAngle(23, speed)
+//        val speed = try {
+//            etDistance.text.toString().toFloat()
+//        } catch (e: Exception) {
+//            1f
+//        }
+//        robot.tiltAngle(23, speed)
     }
 
     /**
@@ -892,24 +921,24 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      * the amount of degrees to turn by and at which speed.
      */
     private fun turnBy() {
-        val speed = try {
-            etDistance.text.toString().toFloat()
-        } catch (e: Exception) {
-            1f
-        }
-        robot.turnBy(90, speed)
+//        val speed = try {
+//            etDistance.text.toString().toFloat()
+//        } catch (e: Exception) {
+//            1f
+//        }
+//        robot.turnBy(90, speed)
     }
 
     /**
      * tiltBy is used to tilt temi's head from its current position.
      */
     private fun tiltBy() {
-        val speed = try {
-            etDistance.text.toString().toFloat()
-        } catch (e: Exception) {
-            1f
-        }
-        robot.tiltBy(70, speed)
+//        val speed = try {
+//            etDistance.text.toString().toFloat()
+//        } catch (e: Exception) {
+//            1f
+//        }
+//        robot.tiltBy(70, speed)
     }
 
     /**
@@ -1119,7 +1148,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     }
 
     override fun onDetectionStateChanged(state: Int) {
-        tvDetectionState.text = "Detect State -> ${OnDetectionStateChangedListener.DetectionStatus.fromValue(state)}"
+//        tvDetectionState.text = "Detect State -> ${OnDetectionStateChangedListener.DetectionStatus.fromValue(state)}"
     }
 
     /**
@@ -1454,15 +1483,15 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         ) {
             return
         }
-        var distanceStr = etDistance.text.toString()
-        if (distanceStr.isEmpty()) distanceStr = "0"
-        try {
-            val distance = distanceStr.toFloat()
-            robot.setDetectionModeOn(true, distance)
-            printLog("Start detection mode with distance: $distance")
-        } catch (e: Exception) {
-            printLog("startDetectionModeWithDistance", e.message ?: "")
-        }
+//        var distanceStr = etDistance.text.toString()
+//        if (distanceStr.isEmpty()) distanceStr = "0"
+//        try {
+//            val distance = distanceStr.toFloat()
+//            robot.setDetectionModeOn(true, distance)
+//            printLog("Start detection mode with distance: $distance")
+//        } catch (e: Exception) {
+//            printLog("startDetectionModeWithDistance", e.message ?: "")
+//        }
     }
 
     override fun onDistanceToLocationChanged(distances: Map<String, Float>) {
@@ -1471,12 +1500,12 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
             text +=
                 " -> $location :: ${distances[location]}\n"
         }
-        tvDistance.text = text
+        //tvDistance.text = text
     }
 
     @SuppressLint("SetTextI18n")
     override fun onCurrentPositionChanged(position: Position) {
-        tvPosition.text = "Position -> {${position.x}, ${position.y}, ${position.yaw}}, tilt: ${position.tiltAngle}"
+        //tvPosition.text = "Position -> {${position.x}, ${position.y}, ${position.yaw}}, tilt: ${position.tiltAngle}"
     }
 
     override fun onSequencePlayStatusChanged(status: Int) {
@@ -1507,11 +1536,11 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     }
 
     override fun onDetectionDataChanged(detectionData: DetectionData) {
-        tvDetection.text = if (detectionData.isDetected) {
-            "Detect -> angle ${detectionData.angle}, dist ${detectionData.distance}"
-        } else {
-            "No detection"
-        }
+//        tvDetection.text = if (detectionData.isDetected) {
+//            "Detect -> angle ${detectionData.angle}, dist ${detectionData.distance}"
+//        } else {
+//            "No detection"
+//        }
     }
 
     override fun onUserInteraction(isInteracting: Boolean) {
@@ -1526,23 +1555,23 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
             return
         }
         Thread {
-            allSequences = robot.getAllSequences(etNlu.text?.split(",") ?: emptyList())
-            printLog("allSequences: ${allSequences.size}", false)
-            val imageKeys: MutableList<String> = ArrayList()
-            for ((_, _, _, imageKey) in allSequences) {
-                if (imageKey.isEmpty()) continue
-                imageKeys.add(imageKey)
-            }
-            val pairs = if (imageKeys.isEmpty()) emptyList()
-            else robot.getSignedUrlByMediaKey(imageKeys)
-            runOnUiThread {
-                for (sequenceModel in allSequences) {
-                    printLog(sequenceModel.toString())
-                }
-                for (pair in pairs) {
-                    printLog(pair.component2(), false)
-                }
-            }
+//            allSequences = robot.getAllSequences(etNlu.text?.split(",") ?: emptyList())
+//            printLog("allSequences: ${allSequences.size}", false)
+//            val imageKeys: MutableList<String> = ArrayList()
+//            for ((_, _, _, imageKey) in allSequences) {
+//                if (imageKey.isEmpty()) continue
+//                imageKeys.add(imageKey)
+//            }
+//            val pairs = if (imageKeys.isEmpty()) emptyList()
+//            else robot.getSignedUrlByMediaKey(imageKeys)
+//            runOnUiThread {
+//                for (sequenceModel in allSequences) {
+//                    printLog(sequenceModel.toString())
+//                }
+//                for (pair in pairs) {
+//                    printLog(pair.component2(), false)
+//                }
+//            }
         }.start()
     }
 
@@ -1580,7 +1609,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     override fun onFaceRecognized(contactModelList: List<ContactModel>) {
         if (contactModelList.isEmpty()) {
             printLog("onFaceRecognized: User left")
-            imageViewFace.visibility = View.INVISIBLE
+//            imageViewFace.visibility = View.INVISIBLE
             return
         }
 
@@ -1588,8 +1617,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         if (!imageKey.isNullOrBlank()) {
             showFaceRecognitionImage(imageKey)
         } else {
-            imageViewFace.setImageResource(R.drawable.app_icon)
-            imageViewFace.visibility = View.VISIBLE
+//            imageViewFace.setImageResource(R.drawable.app_icon)
+//            imageViewFace.visibility = View.VISIBLE
         }
 
         for (contactModel in contactModelList) {
@@ -1612,8 +1641,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         var text = ""
         if (contactModelList.isEmpty()) {
             text = "onContinuousFaceRecognized: User left"
-            imageViewFace.visibility = View.INVISIBLE
-            tvContinuousFace.text = text
+//            imageViewFace.visibility = View.INVISIBLE
+//            tvContinuousFace.text = text
             return
         }
 
@@ -1621,8 +1650,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         if (!imageKey.isNullOrBlank()) {
             showFaceRecognitionImage(imageKey)
         } else {
-            imageViewFace.setImageResource(R.drawable.app_icon)
-            imageViewFace.visibility = View.VISIBLE
+//            imageViewFace.setImageResource(R.drawable.app_icon)
+//            imageViewFace.visibility = View.VISIBLE
         }
 
         text = "onContinuousFaceRecognized:\n"
@@ -1643,13 +1672,13 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
             }
         }
 
-        tvContinuousFace.text = text
+//        tvContinuousFace.text = text
     }
 
     private fun showFaceRecognitionImage(mediaKey: String) {
         if (mediaKey.isEmpty()) {
-            imageViewFace.setImageResource(R.drawable.app_icon)
-            imageViewFace.visibility = View.INVISIBLE
+//            imageViewFace.setImageResource(R.drawable.app_icon)
+//            imageViewFace.visibility = View.INVISIBLE
             return
         }
         executorService.execute {
@@ -1657,8 +1686,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                 robot.getInputStreamByMediaKey(ContentType.FACE_RECOGNITION_IMAGE, mediaKey)
                     ?: return@execute
             runOnUiThread {
-                imageViewFace.visibility = View.VISIBLE
-                imageViewFace.setImageBitmap(BitmapFactory.decodeStream(inputStream))
+//                imageViewFace.visibility = View.VISIBLE
+//                imageViewFace.setImageBitmap(BitmapFactory.decodeStream(inputStream))
                 try {
                     inputStream.close()
                 } catch (e: IOException) {
@@ -1676,19 +1705,19 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         Log.d(tag.ifEmpty { "MainActivity" }, msg)
         if (!show) return
         runOnUiThread {
-            tvLog.gravity = Gravity.BOTTOM
-            tvLog.append("· $msg \n")
+//            tvLog.gravity = Gravity.BOTTOM
+//            tvLog.append("· $msg \n")
         }
     }
 
     private fun clearLog() {
-        tvLog.text = ""
-        tvContinuousFace.text = ""
-        imageViewFace.visibility = View.GONE
+//        tvLog.text = ""
+//        tvContinuousFace.text = ""
+//        imageViewFace.visibility = View.GONE
     }
 
     private fun startNlu() {
-        robot.startDefaultNlu(etNlu.text.toString())
+//        robot.startDefaultNlu(etNlu.text.toString())
     }
 
     override fun onSdkError(sdkException: SdkException) {
@@ -1707,15 +1736,15 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     }
 
     private fun goToPosition() {
-        try {
-            val x = etX.text.toString().toFloat()
-            val y = etY.text.toString().toFloat()
-            val yaw = etYaw.text.toString().toFloat()
-            robot.goToPosition(Position(x, y, yaw, 0), backwards = false, noBypass = false)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            printLog(e.message ?: "")
-        }
+//        try {
+//            val x = etX.text.toString().toFloat()
+//            val y = etY.text.toString().toFloat()
+//            val yaw = etYaw.text.toString().toFloat()
+//            robot.goToPosition(Position(x, y, yaw, 0), backwards = false, noBypass = false)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            printLog(e.message ?: "")
+//        }
     }
 
     override fun onConversationStatusChanged(status: Int, text: String) {
@@ -1723,8 +1752,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     }
 
     override fun onTtsVisualizerWaveFormDataChanged(waveForm: ByteArray) {
-        visualizerView.visibility = View.VISIBLE
-        visualizerView.updateVisualizer(waveForm)
+//        visualizerView.visibility = View.VISIBLE
+//        visualizerView.updateVisualizer(waveForm)
     }
 
     override fun onTtsVisualizerFftDataChanged(fft: ByteArray) {
@@ -1908,17 +1937,17 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     }
 
     private fun loadMapWithPosition(reposeRequired: Boolean) {
-        try {
-            val x = etX.text.toString().toFloat()
-            val y = etY.text.toString().toFloat()
-            val yaw = etYaw.text.toString().toFloat()
-            loadMap(true, Position(x, y, yaw, 0))
-            val position = Position(x, y, yaw, 0)
-            loadMap(reposeRequired, position)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            printLog(e.message ?: "")
-        }
+//        try {
+//            val x = etX.text.toString().toFloat()
+//            val y = etY.text.toString().toFloat()
+//            val yaw = etYaw.text.toString().toFloat()
+//            loadMap(true, Position(x, y, yaw, 0))
+//            val position = Position(x, y, yaw, 0)
+//            loadMap(reposeRequired, position)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            printLog(e.message ?: "")
+//        }
     }
 
     private fun getTts() {
@@ -2123,7 +2152,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
     @SuppressLint("SetTextI18n")
     override fun onGreetModeStateChanged(state: Int) {
-        tvGreetMode.text = "Greet Mode -> ${OnGreetModeStateChangedListener.State.fromValue(state)}"
+//        tvGreetMode.text = "Greet Mode -> ${OnGreetModeStateChangedListener.State.fromValue(state)}"
     }
 
     override fun onLoadFloorStatusChanged(status: Int) {
