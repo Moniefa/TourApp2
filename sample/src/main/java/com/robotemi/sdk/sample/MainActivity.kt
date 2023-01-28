@@ -172,6 +172,27 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         }
     }
 
+    fun onStopFunction(view: View) {
+        // get current position
+
+        //
+        for (location in robot.locations) {
+            // if current location == one of the locations
+            //stop
+
+            // else continue
+        }
+    }
+
+//    override fun onDistanceToDestinationChanged(location: String, distance: Float): Boolean {
+//        if (robot.onDistanceToDestinationChangedListeners.isEmpty()) return false
+//        uiHandler.post {
+//            for (listener in robot.onDistanceToDestinationChangedListeners) {
+//                listener.onDistanceToDestinationChanged(location, distance)
+//            }
+//        }
+//        return true
+
     fun onGoFunction(view: View) {
         val allLocations = robot.locations;     // Gets all the current locations from the pre-determined list
         val spinnerLocations = spinner.selectedItem     // This maybe gets items from the dropdown list
