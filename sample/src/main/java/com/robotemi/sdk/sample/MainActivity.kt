@@ -173,6 +173,19 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     }
 
     fun onGoFunction(view: View) {
+        val allLocations = robot.locations;     // Gets all the current locations from the pre-determined list
+        val spinnerLocations = spinner.selectedItem     // This maybe gets items from the dropdown list
+        Log.d("Getting all locations: ", allLocations.toString());
+        Log.d("Getting all locations: ", spinnerLocations.toString());
+        if (allLocations.isNotEmpty()) {
+            try{
+                goTo()
+            }catch(e: Exception){
+                stopMovement()
+            }
+        } else {
+            stopMovement()
+        }
         Log.d("GO to Location", "Test")
     }
 
