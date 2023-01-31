@@ -172,16 +172,15 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         }
     }
 
+    /**
+     * This should stop the movement of Temi robot
+     * */
     fun onStopFunction(view: View) {
-        // get current position
+        robot.stopMovement()
 
-        //
-        for (location in robot.locations) {
-            // if current location == one of the locations
-            //stop
-
-            // else continue
-        }
+        val ttsRequest =
+            create( " We have arrived at _____ location", true)
+        robot.speak(ttsRequest) // do you guys want this?
     }
 
 //    override fun onDistanceToDestinationChanged(location: String, distance: Float): Boolean {
