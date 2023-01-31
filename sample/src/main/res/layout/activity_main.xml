@@ -65,4 +65,53 @@
         app:layout_constraintVertical_bias="0.26"
         tools:layout_editor_absoluteX="0dp" />
 
+    <EditText
+        android:id="@+id/etX"
+        android:layout_width="55dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="60dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:hint="x"
+        android:inputType="numberDecimal"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorGrey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/etY"
+        app:layout_constraintHorizontal_bias="0.346"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etGoTo" />
+
+    <EditText
+        android:id="@+id/etY"
+        android:layout_width="48dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="72dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:hint="y"
+        android:inputType="numberDecimal"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorGrey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/etYaw"
+        app:layout_constraintTop_toBottomOf="@+id/etGoTo" />
+
+    <EditText
+        android:id="@+id/etYaw"
+        android:layout_width="66dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="96dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:hint="yaw"
+        android:inputType="numberDecimal"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorGrey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etGoTo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

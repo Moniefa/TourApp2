@@ -192,7 +192,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 //        }
 //        return true
 
-    fun onGoFunction(view: View) {
+    fun onGoFunctionUsingLabels(view: View) {
         val allLocations = robot.locations;     // Gets all the current locations from the pre-determined list
         val spinnerLocations = spinner.selectedItem     // This maybe gets items from the dropdown list
         Log.d("Getting all locations: ", allLocations.toString());
@@ -200,15 +200,30 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         if (allLocations.isNotEmpty()) {
             try{
                 goTo()
-            }catch(e: Exception){
-                stopMovement()
+            }catch (e: Exception) {
+                e.printStackTrace()
+                printLog(e.message ?: "")
             }
-        } else {
-            stopMovement()
         }
         Log.d("GO to Location", "Test")
     }
 
+
+    fun onGoFunctionUsingCords(view: View) {
+        val allLocations = robot.locations;     // Gets all the current locations from the pre-determined list
+        val spinnerLocations = spinner.selectedItem     // This maybe gets items from the dropdown list
+        Log.d("Getting all locations: ", allLocations.toString());
+        Log.d("Getting all locations: ", spinnerLocations.toString());
+        if (allLocations.isNotEmpty()) {
+            try{
+                goToPosition()
+            }catch (e: Exception) {
+                e.printStackTrace()
+                printLog(e.message ?: "")
+            }
+        }
+        Log.d("GO to Location", "Test")
+    }
     /**
      * Setting up all the event listeners
      */
