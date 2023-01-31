@@ -178,9 +178,9 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     fun onStopFunction(view: View) {
         robot.stopMovement()
 
-        val ttsRequest =
-            create( " We have arrived at _____ location", true)
-        robot.speak(ttsRequest) // do you guys want this?
+//        val ttsRequest =
+//            create( " We have arrived at _____ location", true)
+//        robot.speak(ttsRequest) // do you guys want this?
     }
 
 //    override fun onDistanceToDestinationChanged(location: String, distance: Float): Boolean {
