@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="onStopFunction"
     tools:context=".MainActivity">
 
     <Button
@@ -22,6 +23,7 @@
         android:layout_width="154dp"
         android:layout_height="65dp"
         android:layout_marginTop="32dp"
+        android:onClick="onStopFunction"
         android:text="Stop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
