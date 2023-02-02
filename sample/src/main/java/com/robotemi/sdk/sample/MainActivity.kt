@@ -23,11 +23,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
+import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
 import androidx.annotation.CheckResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -197,9 +194,10 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         val spinnerLocations = spinner.selectedItem     // This maybe gets items from the dropdown list
         Log.d("Getting all locations: ", allLocations.toString());
         Log.d("Getting all locations: ", spinnerLocations.toString());
+
         if (allLocations.isNotEmpty()) {
             try{
-                goTo()
+                goTo() ;
             }catch (e: Exception) {
                 e.printStackTrace()
                 printLog(e.message ?: "")
@@ -895,19 +893,19 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      * goTo checks that the location sent is saved then goes to that location.
      */
     private fun goTo() {
-//        for (location in robot.locations) {
-//            if (location == etGoTo.text.toString().lowercase()
-//                    .trim { it <= ' ' }
-//            ) {
-//                robot.goTo(
-//                    etGoTo.text.toString().lowercase().trim { it <= ' ' },
-//                    backwards = false,
-//                    noBypass = false,
-//                    speedLevel = SpeedLevel.HIGH
-//                )
-//                hideKeyboard()
-//            }
-//        }
+        for (location in robot.locations) {
+            if (location == etGoTo.text.toString().lowercase()
+                    .trim { it <= ' ' }
+            ) {
+                robot.goTo(
+                    etGoTo.text.toString().lowercase().trim { it <= ' ' },
+                    backwards = false,
+                    noBypass = false,
+                    speedLevel = SpeedLevel.HIGH
+                )
+                hideKeyboard()
+            }
+        }
     }
 
     /**IMPORTANT THIS STOPS THE ROBOT
@@ -1553,7 +1551,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
     @SuppressLint("SetTextI18n")
     override fun onCurrentPositionChanged(position: Position) {
-        //tvPosition.text = "Position -> {${position.x}, ${position.y}, ${position.yaw}}, tilt: ${position.tiltAngle}"
+        tvPosition.text = "Position -> {${position.x}, ${position.y}, ${position.yaw}}, tilt: ${position.tiltAngle}"
     }
 
     override fun onSequencePlayStatusChanged(status: Int) {

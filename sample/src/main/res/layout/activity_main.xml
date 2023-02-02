@@ -10,10 +10,11 @@
         android:id="@+id/goButton"
         android:layout_width="148dp"
         android:layout_height="62dp"
-        android:layout_marginTop="40dp"
-        android:onClick="onGoFunction"
+        android:layout_marginTop="28dp"
+        android:onClick="onGoFunctionUsingLabels"
         android:text="GO"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.486"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stopButton" />
 
@@ -21,22 +22,23 @@
         android:id="@+id/stopButton"
         android:layout_width="154dp"
         android:layout_height="65dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="28dp"
         android:onClick="onStopFunction"
         android:text="Stop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/tvPosition" />
 
     <TextView
         android:id="@+id/locationTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="36dp"
         android:text="Location"
         android:textSize="29sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,9 +46,10 @@
         android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="44dp"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/goButton" />
 
@@ -65,53 +68,17 @@
         app:layout_constraintVertical_bias="0.26"
         tools:layout_editor_absoluteX="0dp" />
 
-    <EditText
-        android:id="@+id/etX"
-        android:layout_width="55dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="60dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:hint="x"
-        android:inputType="numberDecimal"
+    <TextView
+        android:id="@+id/tvPosition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:lines="1"
         android:textColor="@color/colorWhite"
-        android:textColorHint="@color/colorGrey"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/etY"
-        app:layout_constraintHorizontal_bias="0.346"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etGoTo" />
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/locationTextView"
+        tools:layout_editor_absoluteX="159dp"
+        tools:text="PositionView" />
 
-    <EditText
-        android:id="@+id/etY"
-        android:layout_width="48dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="72dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:hint="y"
-        android:inputType="numberDecimal"
-        android:textColor="@color/colorWhite"
-        android:textColorHint="@color/colorGrey"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/etYaw"
-        app:layout_constraintTop_toBottomOf="@+id/etGoTo" />
-
-    <EditText
-        android:id="@+id/etYaw"
-        android:layout_width="66dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginEnd="96dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:hint="yaw"
-        android:inputType="numberDecimal"
-        android:textColor="@color/colorWhite"
-        android:textColorHint="@color/colorGrey"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etGoTo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
