@@ -169,6 +169,31 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         }
     }
 
+    fun onTour(view: View){
+        val allLocations = robot.locations;
+        Log.d("locations in tour", allLocations.toString())
+
+        if(allLocations.isNotEmpty()){
+            try{
+                for(i in allLocations.indices){ // should go through every location
+                    if(!(i==0)){ //skip it going to home base since home base will always be first location
+                        robot.goTo(
+                            allLocations[i],
+                            backwards = false,
+                            noBypass = false,
+                            speedLevel = SpeedLevel.HIGH
+                        )
+                    }
+                }
+
+            }catch (e: Exception) {
+                e.printStackTrace()
+                printLog(e.message ?: "")
+            }
+
+        }
+    }
+
     /**
      * This should stop the movement of Temi robot
      * */
