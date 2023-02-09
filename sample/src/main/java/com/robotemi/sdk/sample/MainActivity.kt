@@ -1551,7 +1551,10 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
     @SuppressLint("SetTextI18n")
     override fun onCurrentPositionChanged(position: Position) {
-        tvPosition.text = "Position -> {${position.x}, ${position.y}, ${position.yaw}}, tilt: ${position.tiltAngle}"
+        Log.d("Position Changing", "Position -> {${position.x}, ${position.y}, ${position.yaw}}, tilt: ${position.tiltAngle}")
+        runOnUiThread {
+            tvPosition.text = "Position -> {${position.x}, ${position.y}, ${position.yaw}}, tilt: ${position.tiltAngle}"
+        }
     }
 
     override fun onSequencePlayStatusChanged(status: Int) {
