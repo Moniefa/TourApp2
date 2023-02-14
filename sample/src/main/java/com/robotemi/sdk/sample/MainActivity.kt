@@ -147,26 +147,26 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         val languages = arrayOf("English", "Spanish", "French", "German")
 
 
-        val spinner : Spinner = findViewById(R.id.spinner)
+        //val spinner : Spinner = findViewById(R.id.spinner)
 
-        if (spinner != null) {
-            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter;
-
-            spinner.onItemSelectedListener = object :
-                AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                    Toast.makeText(this@MainActivity,
-                        getString(R.string.selected_item) + " " +
-                                "" + languages[position], Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    // write code to perform some action
-                }
-            }
-        }
+//        if (spinner != null) {
+//            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//            spinner.adapter = adapter;
+//
+//            spinner.onItemSelectedListener = object :
+//                AdapterView.OnItemSelectedListener {
+//                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+//                    Toast.makeText(this@MainActivity,
+//                        getString(R.string.selected_item) + " " +
+//                                "" + languages[position], Toast.LENGTH_SHORT).show()
+//                }
+//
+//                override fun onNothingSelected(parent: AdapterView<*>) {
+//                    // write code to perform some action
+//                } HERE ARE MORE CHANGES FOR TESTING
+//            }
+//        }
     }
 
     fun onTour(view: View){
@@ -216,9 +216,9 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
     fun onGoFunctionUsingLabels(view: View) {
         val allLocations = robot.locations;     // Gets all the current locations from the pre-determined list
-        val spinnerLocations = spinner.selectedItem     // This maybe gets items from the dropdown list
+        //val spinnerLocations = spinner.selectedItem     // This maybe gets items from the dropdown list
         Log.d("Getting all locations: ", allLocations.toString());
-        Log.d("Getting all locations: ", spinnerLocations.toString());
+        //Log.d("Getting all locations: ", spinnerLocations.toString());
 
         if (allLocations.isNotEmpty()) {
             try{
@@ -234,9 +234,9 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
     fun onGoFunctionUsingCords(view: View) {
         val allLocations = robot.locations;     // Gets all the current locations from the pre-determined list
-        val spinnerLocations = spinner.selectedItem     // This maybe gets items from the dropdown list
+        //val spinnerLocations = spinner.selectedItem     // This maybe gets items from the dropdown list
         Log.d("Getting all locations: ", allLocations.toString());
-        Log.d("Getting all locations: ", spinnerLocations.toString());
+        //Log.d("Getting all locations: ", spinnerLocations.toString());
         if (allLocations.isNotEmpty()) {
             try{
                 goToPosition()
