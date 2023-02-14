@@ -101,6 +101,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
     private var debugReceiver: TemiBroadcastReceiver? = null
 
+    private var lastDistanceSaved: Int = 0
+
     private val telepresenceStatusChangedListener: OnTelepresenceStatusChangedListener by lazy {
         object : OnTelepresenceStatusChangedListener("") {
             override fun onTelepresenceStatusChanged(callState: CallState) {
@@ -1577,9 +1579,10 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     @SuppressLint("SetTextI18n")
     override fun onCurrentPositionChanged(position: Position) {
         Log.d("Position Changing", "Position -> {${position.x}, ${position.y}, ${position.yaw}}, tilt: ${position.tiltAngle}")
-        runOnUiThread {
-            tvPosition.text = "Position -> {${position.x}, ${position.y}, ${position.yaw}}, tilt: ${position.tiltAngle}"
-        }
+//        runOnUiThread {
+//            tvPosition.text = "Position -> {${position.x}, ${position.y}, ${position.yaw}}, tilt: ${position.tiltAngle}"
+//
+//        }
     }
 
     override fun onSequencePlayStatusChanged(status: Int) {
@@ -2239,5 +2242,19 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         // POSSIBLY ADD CODE TO THIS
         //CREATE SOME VARIABLES AND MONITOR THE VARIABLES
         printLog("distance to destination: destination=$location, distance=$distance") //important as well
+
+        Log.d("ON DISTANCE TO DESTINATION CHANGED", "destination=$location, disatnce=$distance")
+
+        Log.d("Distance change", "Distance " + distance.toInt())
+
+        runOnUiThread {
+            if (distance.toInt() != lastDistanceSaved || (lastDistanceSaved - distance.toInt()) == 1 ){
+                lastDistanceSaved = distance.toInt()
+                tvPosition.text = "Distance = ${distance.toInt()}"
+                val ttsRequest = create( "Distance = ${distance.toInt()}", true)
+                robot.speak(ttsRequest)
+            }
+        }
+
     }
 }
