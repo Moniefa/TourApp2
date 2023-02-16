@@ -75,6 +75,7 @@
         android:layout_width="178dp"
         android:layout_height="62dp"
         android:layout_marginTop="44dp"
+        android:onClick="onTour"
         android:text="START TOUR"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

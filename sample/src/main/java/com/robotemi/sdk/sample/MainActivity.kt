@@ -103,6 +103,10 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
     private var lastDistanceSaved: Int = 0
 
+    private var isGoButtonClicked: Boolean = false
+
+    private var hasSpeak: Boolean = false
+
     private val telepresenceStatusChangedListener: OnTelepresenceStatusChangedListener by lazy {
         object : OnTelepresenceStatusChangedListener("") {
             override fun onTelepresenceStatusChanged(callState: CallState) {
@@ -217,6 +221,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 //        return true
 
     fun onGoFunctionUsingLabels(view: View) {
+        isGoButtonClicked = true
         val allLocations = robot.locations;     // Gets all the current locations from the pre-determined list
         //val spinnerLocations = spinner.selectedItem     // This maybe gets items from the dropdown list
         Log.d("Getting all locations: ", allLocations.toString());
@@ -928,7 +933,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                     etGoTo.text.toString().lowercase().trim { it <= ' ' },
                     backwards = false,
                     noBypass = false,
-                    speedLevel = SpeedLevel.HIGH
+                    speedLevel = SpeedLevel.MEDIUM
                 )
                 hideKeyboard()
             }
@@ -1173,9 +1178,9 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         description: String
     ) {
         printLog("GoToStatusChanged: status=$status, descriptionId=$descriptionId, description=$description")
-        robot.speak(create(status, false))
+//        robot.speak(create(status, false))
         if (description.isNotBlank()) {
-            robot.speak(create(description, false))
+//            robot.speak(create(description, false))
         }
     }
 
@@ -2236,6 +2241,11 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         printLog("onLoadFloorStatusChanged: $status")
     }
 
+    /**
+     * Updates every time when the distance between temi robot and the destination location changes
+     * And it updates the front end to displays the distance in integers
+     * And also speaks when it starts moving with the current distance in integer, afterwards it speaks every time when the distance is divisible by 5.
+     */
     override fun onDistanceToDestinationChanged(location: String, distance: Float) {
         // SPEAK THIS
 
@@ -2247,12 +2257,29 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
         Log.d("Distance change", "Distance " + distance.toInt())
 
+//        val ttsRequest = create("Cool beans", true)
+//        robot.speak(ttsRequest)
+
         runOnUiThread {
-            if (distance.toInt() != lastDistanceSaved || (lastDistanceSaved - distance.toInt()) == 1 ){
+            if (isGoButtonClicked) {
+                val ttsRequestStart = create("Distance = ${distance.toInt()}", true)
+                robot.speak(ttsRequestStart)
+                isGoButtonClicked= false
+            }
+            hasSpeak = distance.toInt() == lastDistanceSaved
+            if (distance.toInt() > 0 && distance.toInt() % 5 == 0 ){
                 lastDistanceSaved = distance.toInt()
                 tvPosition.text = "Distance = ${distance.toInt()}"
-                val ttsRequest = create( "Distance = ${distance.toInt()}", true)
-                robot.speak(ttsRequest)
+                if(!hasSpeak) {
+                    val ttsRequest = create( "Distance = ${distance.toInt()}", true)
+                    robot.speak(ttsRequest)
+                }
+            }
+            if (distance == 0.0F && !hasSpeak) {
+                val ttsArrived = create("Arrived to ${location}")
+                lastDistanceSaved = distance.toInt()
+                robot.speak(ttsArrived)
+                hasSpeak = true
             }
         }
 
