@@ -7,21 +7,16 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.*
 import android.content.pm.PackageManager
-import android.content.res.AssetFileDescriptor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Environment
 import android.os.RemoteException
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
-import android.text.method.ScrollingMovementMethod
 import android.util.Log
-import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
@@ -60,7 +55,6 @@ import com.robotemi.sdk.permission.Permission
 import com.robotemi.sdk.sequence.OnSequencePlayStatusChangedListener
 import com.robotemi.sdk.sequence.SequenceModel
 import com.robotemi.sdk.telepresence.CallState
-import com.robotemi.sdk.telepresence.LinkBasedMeeting
 import com.robotemi.sdk.voice.ITtsService
 import com.robotemi.sdk.voice.model.TtsVoice
 import kotlinx.android.synthetic.main.activity_main.*
@@ -74,7 +68,8 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.Executors
-import kotlin.concurrent.thread
+import java.util.concurrent.locks.ReentrantLock
+
 //import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
@@ -191,7 +186,9 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         if(allLocations.isNotEmpty()){
         //create new thread here for all code below
             try{
+                val lock = ReentrantLock()
                 val goTourThread = Thread {
+                    lock.lock()
                     for(i in allLocations.indices){ // should go through every location
                         if(i>0){ //skip it going to home base since home base will always be first location
 
@@ -225,6 +222,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
 
                     }
+                    lock.unlock()
                 }
                 goTourThread.start();
 
