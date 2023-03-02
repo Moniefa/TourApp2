@@ -191,35 +191,42 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         if(allLocations.isNotEmpty()){
         //create new thread here for all code below
             try{
-                for(i in allLocations.indices){ // should go through every location
-                    if(i>0){ //skip it going to home base since home base will always be first location
-                        lastLocation = i
+                val goTourThread = Thread {
+                    for(i in allLocations.indices){ // should go through every location
+                        if(i>0){ //skip it going to home base since home base will always be first location
 
-                        robot.goTo(
-                            allLocations[i],
-                            backwards = false,
-                            noBypass = false,
-                            speedLevel = SpeedLevel.MEDIUM
-                        )
-                        Log.d("last distance", lastDistanceSaved.toString())
-                        Thread.sleep(2500)
-                        while(!(globalStatus.equals("complete"))){
-                            Log.d("last distance in loop", lastDistanceSaved.toString())
-                            Thread.sleep(500)
-                            Log.d("current globalStatus", "current globalStatus = " + globalStatus)
+                                    Log.d("last distance", lastDistanceSaved.toString())
+                                    lastLocation = i
+                                    robot.goTo(
+                                        allLocations[i],
+                                        backwards = false,
+                                        noBypass = false,
+                                        speedLevel = SpeedLevel.MEDIUM
+                                    )
 
-                        }
-                        Thread.sleep(5000)
-                        println("okay ==")
+                                    Log.d("last distance2", lastDistanceSaved.toString())
+//                                    Thread.sleep(2500)
+                                    globalStatus = ""
+                                    while(!(globalStatus.equals("complete"))){
+//                                        Log.d("last distance in loop", lastDistanceSaved.toString())
+                                        Thread.sleep(500)
+                                        Log.d("current globalStatus", "current globalStatus = " + globalStatus)
+                                }
 
 
-                        //call OnGoToLocationStatusChangedListener{}
+                            }
+//                            Thread.sleep(5000)
+//                            println("okay ==")
 
-                        println("after goTo()" + i.toString())
+
+                            //call OnGoToLocationStatusChangedListener{}
+
+                            println("after goTo()" + i.toString())
 
 
                     }
                 }
+                goTourThread.start();
 
             }catch (e: Exception) {
                 e.printStackTrace()
@@ -1266,7 +1273,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
             globalStatus = status
         if (description.isNotBlank()) {
 //            robot.speak(create(description, false))
-            println("WTF is this?" + status)
             globalStatus = status
         }
     }
@@ -2350,7 +2356,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
         runOnUiThread {
             if (isGoButtonClicked) {
-                val ttsRequestStart = create("Distance = ${distance.toInt()}", true)
+                val ttsRequestStart = create("Distance = ${distance.toInt()}", false)
                 robot.speak(ttsRequestStart)
                 isGoButtonClicked= false
             }
@@ -2358,12 +2364,12 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
             if (distance.toInt() > 0 && distance.toInt() % 5 == 0 ){
                 lastDistanceSaved = distance.toInt()
                 if(!hasSpeak) {
-                    val ttsRequest = create( "Distance = ${distance.toInt()}", true)
+                    val ttsRequest = create( "Distance = ${distance.toInt()}", false)
                     robot.speak(ttsRequest)
                 }
             }
             if (distance.toInt() == 0 && !hasSpeak) {
-                val ttsArrived = create("Arrived to ${location}")
+                val ttsArrived = create("Arrived to ${location}", false)
                 lastDistanceSaved = distance.toInt()
                 robot.speak(ttsArrived)
                 hasSpeak = true
