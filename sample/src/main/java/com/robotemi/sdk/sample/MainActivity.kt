@@ -236,27 +236,54 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         }
     }
 
-    /*
-    fun goToTour(lastLocation: Int){
+
+    fun goToTour(lastLoc: Int){
         val allLocations = robot.locations;
+
         Log.d("locations in tour", allLocations.toString())
 
         if(allLocations.isNotEmpty()){
-
+            //create new thread here for all code below
             try{
-                for(i in allLocations.indices){ // should go through every location
-                    if(i>=lastLocation){ //skip it going to home base since home base will always be first location
+                val lock = ReentrantLock()
+                val goTourThread = Thread {
+                    lock.lock()
+                    for(i in allLocations.indices){ // should go through every location
+                        if(i>lastLoc){ //skip it going to home base since home base will always be first location
 
-                        robot.goTo(
-                            allLocations[i],
-                            backwards = false,
-                            noBypass = false,
-                            speedLevel = SpeedLevel.HIGH
-                        )
+                            Log.d("last distance", lastDistanceSaved.toString())
+                            lastLocation = i
+                            robot.goTo(
+                                allLocations[i],
+                                backwards = false,
+                                noBypass = false,
+                                speedLevel = SpeedLevel.MEDIUM
+                            )
+
+                            Log.d("last distance2", lastDistanceSaved.toString())
+//                                    Thread.sleep(2500)
+                            globalStatus = ""
+                            while(!(globalStatus.equals("complete"))){
+//                                        Log.d("last distance in loop", lastDistanceSaved.toString())
+                                Thread.sleep(500)
+                                Log.d("current globalStatus", "current globalStatus = " + globalStatus)
+                            }
+
+
+                        }
+//                            Thread.sleep(5000)
+//                            println("okay ==")
+
+
+                        //call OnGoToLocationStatusChangedListener{}
+
+                        println("after goTo()" + i.toString())
 
 
                     }
+                    lock.unlock()
                 }
+                goTourThread.start();
 
             }catch (e: Exception) {
                 e.printStackTrace()
@@ -268,18 +295,18 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         }
     }
 
-     */
+
 
     fun onTour(view: View){
         val allLocations = robot.locations;
         Log.d("locations in tour", allLocations.toString())
 
         if(allLocations.isNotEmpty()){
-         //   if(stoppedTour) {
-         //       goToTour(lastLocation)
-         //   } else{
+            if(stoppedTour) {
+               goToTour(lastLocation)
+           } else{
                 goToTour()
-         //   }
+            }
 
 
         }
