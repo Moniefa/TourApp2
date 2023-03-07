@@ -109,6 +109,9 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
     private var globalStatus: String = ""
 
+    private val ttsList = arrayOf("This is my Home Base, it is my everything", "This is the door to E029, its all ive ever known", "This is my hiding spot, dont tell anybody!", "This is the center of the room, and this is Tristan padding extra text into this one for testing purposes alalalalala", "this is called comeback because this is where we work so they wanted me to 'comeback'")
+
+
 
     private val telepresenceStatusChangedListener: OnTelepresenceStatusChangedListener by lazy {
         object : OnTelepresenceStatusChangedListener("") {
@@ -190,8 +193,12 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                 val goTourThread = Thread {
                     lock.lock()
                     for(i in allLocations.indices){ // should go through every location
-                        if(i>0){ //skip it going to home base since home base will always be first location
+                        if(i>0 && !stoppedTour){ //skip it going to home base since home base will always be first location
+                            if(stoppedTour==true){
+                                button.isEnabled = true
+                                stoppedTour = false
 
+                            }
                                     Log.d("last distance", lastDistanceSaved.toString())
                                     lastLocation = i
                                     robot.goTo(
@@ -206,9 +213,25 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                                     globalStatus = ""
                                     while(!(globalStatus.equals("complete"))){
 //                                        Log.d("last distance in loop", lastDistanceSaved.toString())
+                                        if(stoppedTour==true){
+                                            button.isEnabled = true
+                                            stoppedTour = false
+
+                                        }
                                         Thread.sleep(500)
                                         Log.d("current globalStatus", "current globalStatus = " + globalStatus)
-                                }
+                                    }
+                                    val ttsRequest = create(ttsList[i], true)
+                                    robot.speak(ttsRequest)
+                                    while(ttsRequest.status != TtsRequest.Status.COMPLETED){
+                                        Thread.sleep(500)
+                                    }
+                                    //Thread.sleep(500)
+                                    //while(tts.getStatus())
+
+
+
+
 
 
                             }
@@ -248,9 +271,15 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                 val lock = ReentrantLock()
                 val goTourThread = Thread {
                     lock.lock()
+                    button.isEnabled = false
                     for(i in allLocations.indices){ // should go through every location
-                        if(i>lastLoc){ //skip it going to home base since home base will always be first location
+                        if(i>lastLoc && !stoppedTour){ //skip it going to home base since home base will always be first location
 
+                            if(stoppedTour==true){
+                                button.isEnabled = true
+                                stoppedTour = false
+
+                            }
                             Log.d("last distance", lastDistanceSaved.toString())
                             lastLocation = i
                             robot.goTo(
@@ -265,6 +294,11 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                             globalStatus = ""
                             while(!(globalStatus.equals("complete"))){
 //                                        Log.d("last distance in loop", lastDistanceSaved.toString())
+                                if(stoppedTour==true){
+                                    button.isEnabled = true
+                                    stoppedTour = false
+
+                                }
                                 Thread.sleep(500)
                                 Log.d("current globalStatus", "current globalStatus = " + globalStatus)
                             }
