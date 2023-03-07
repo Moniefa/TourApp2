@@ -192,6 +192,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                 val lock = ReentrantLock()
                 val goTourThread = Thread {
                     lock.lock()
+                    button.isEnabled = false
                     for(i in allLocations.indices){ // should go through every location
                         if(i>0 && !stoppedTour){ //skip it going to home base since home base will always be first location
                             if(stoppedTour==true){
@@ -245,6 +246,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
 
                     }
+                    button.isEnabled = true
                     lock.unlock()
                 }
                 goTourThread.start();
@@ -315,6 +317,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
 
                     }
+                    button.isEnabled = true
                     lock.unlock()
                 }
                 goTourThread.start();
