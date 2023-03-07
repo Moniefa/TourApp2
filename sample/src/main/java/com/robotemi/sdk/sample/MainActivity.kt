@@ -69,6 +69,7 @@ import kotlinx.android.synthetic.main.group_buttons.*
 import kotlinx.android.synthetic.main.group_map_and_movement.*
 import kotlinx.android.synthetic.main.group_resources.*
 import kotlinx.android.synthetic.main.group_settings_and_status.*
+import org.w3c.dom.Text
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -127,6 +128,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //val testButton = findViewById<Button>(R.id.rounded_button)
+        //testButton.setBackgroundResource(R.drawable.rounded_button)
 //        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
 //        verifyStoragePermissions(this)
         robot = getInstance()
@@ -185,6 +188,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
     fun goToTour(){
         val allLocations = robot.locations;
+        val locationTextView = findViewById<TextView>(R.id.locationTextView)
 
         Log.d("locations in tour", allLocations.toString())
 
@@ -203,7 +207,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                                         noBypass = false,
                                         speedLevel = SpeedLevel.MEDIUM
                                     )
-
+                                    //TODO: setting the location on the screen
                                     Log.d("last distance2", lastDistanceSaved.toString())
 //                                    Thread.sleep(2500)
                                     globalStatus = ""

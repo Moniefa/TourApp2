@@ -9,6 +9,15 @@
     <color name="colorBlack">#212121</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGrey">#bdbdbd</color>
+    <color name="buttonColor">#001075</color>
+    <color name="buttonTop">#660033</color>
+    <color name="buttonMid">#990033</color>
+    <color name="buttonBot">#FF9933</color>
+
+
+
+
+
 
     <color name="temi_primary_green">#20d199</color>
     <color name="temi_primary_green_80">#cc20d199</color>
