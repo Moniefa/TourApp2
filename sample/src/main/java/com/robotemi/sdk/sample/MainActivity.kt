@@ -116,6 +116,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
 
 
+
     private val telepresenceStatusChangedListener: OnTelepresenceStatusChangedListener by lazy {
         object : OnTelepresenceStatusChangedListener("") {
             override fun onTelepresenceStatusChanged(callState: CallState) {
@@ -259,7 +260,13 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                     }
                     runOnUiThread{
                         button.isEnabled = true
+                        if(allLocations[lastLocation]==allLocations[allLocations.size-1] && !stoppedTour){
+                            Log.d("BUTTON CHANGE","we made it here")
+                            button.text = "Start Tour"
+                            Log.d(" post BUTTON CHANGE","we made it here")
+                        }
                     }
+
 
                     //lock.unlock()
                 }
@@ -351,7 +358,14 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                     }
                     runOnUiThread{
                         button.isEnabled = true
+                        if(allLocations[lastLocation]==allLocations[allLocations.size-1] && !stoppedTour){
+                            Log.d("BUTTON CHANGE","we made it here")
+                            button.text = "Start Tour"
+                            Log.d(" post BUTTON CHANGE","we made it here")
+                        }
                     }
+
+
                     //lock.unlock()
                 }
                 goTourThread.start();
@@ -369,6 +383,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
 
     fun onTour(view: View){
+        button.text = "Continue Tour"
         val allLocations = robot.locations;
         Log.d("locations in tour", allLocations.toString())
 
