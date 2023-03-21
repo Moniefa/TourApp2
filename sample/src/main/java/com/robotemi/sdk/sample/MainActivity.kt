@@ -63,13 +63,11 @@ import kotlinx.android.synthetic.main.group_buttons.*
 import kotlinx.android.synthetic.main.group_map_and_movement.*
 import kotlinx.android.synthetic.main.group_resources.*
 import kotlinx.android.synthetic.main.group_settings_and_status.*
-import org.w3c.dom.Text
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.Executors
-import java.util.concurrent.locks.ReentrantLock
 
 //import kotlinx.coroutines.*
 
@@ -113,6 +111,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     private var ttsStatus: String = ""
 
     private val ttsList = arrayOf("This is my Home Base, it is my everything", "This is the door to E029, its all ive ever known", "This is the center of the room, and this is Tristan padding extra text into this one for testing purposes alalalalala", "This is my hiding spot, dont tell anybody!",  "this is called comeback because this is where we work so they wanted me to 'comeback'")
+
+
 
 
 
@@ -162,31 +162,22 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         debugReceiver = TemiBroadcastReceiver()
         registerReceiver(debugReceiver, IntentFilter(TemiBroadcastReceiver.ACTION_DEBUG));
 
-        //val languages = arrayOf("English", "Spanish", "French", "German")
-
-
-        //val spinner : Spinner = findViewById(R.id.spinner)
-
-//        if (spinner != null) {
-//            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
-//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//            spinner.adapter = adapter;
-//
-//            spinner.onItemSelectedListener = object :
-//                AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-//                    Toast.makeText(this@MainActivity,
-//                        getString(R.string.selected_item) + " " +
-//                                "" + languages[position], Toast.LENGTH_SHORT).show()
-//                }
-//
-//                override fun onNothingSelected(parent: AdapterView<*>) {
-//                    // write code to perform some action
-//                } HERE ARE MORE CHANGES FOR TESTING
-//            }
-//        }
     }
 
+    /**
+     * When called goToTour() first gets all the locations from temi.
+     *
+     * Then it checks to see if that list is empty, if it isnt empty it continues with the code.
+     *
+     * From there it enters a separate thread and calls the UI thread to turn off the start tour button
+     * so that way we dont accidentally start multiple of the same threads.
+     *
+     * Then it resets the stoppedTour variable to false.
+     *
+     * then it enters a for loop for every location index in allLocations.
+     *
+     *
+     */
     fun goToTour(){
         val allLocations = robot.locations;
 
@@ -226,6 +217,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                                             if(stoppedTour) {
                                                 break@global
                                             }
+                                            Log.d("current stoppedTour status", " " + stoppedTour);
                                             //add if statement that breaks out if stop clicked
                                             Thread.sleep(500)
                                             Log.d(
@@ -313,12 +305,13 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                             Log.d("last distance2", lastDistanceSaved.toString())
 //                                    Thread.sleep(2500)
                             globalStatus = ""
-                            globalStatus = ""
+
                             if(!stoppedTour) {
                                 global@ while(!(globalStatus.equals("complete"))) {
                                     if(stoppedTour) {
                                         break@global
                                     }
+                                    Log.d("current stoppedTour status", " " + stoppedTour);
                                     //add if statement that breaks out if stop clicked
                                     Thread.sleep(500)
                                     Log.d(
@@ -1371,6 +1364,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
     override fun onBeWithMeStatusChanged(status: String) {
         //  When status changes to "lock" the robot recognizes the user and begin to follow.
+
         printLog("BeWithMeStatus: $status")
     }
 
@@ -2466,7 +2460,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
 //        val ttsRequest = create("Cool beans", true)
 //        robot.speak(ttsRequest)
-
+        /*
         runOnUiThread {
             if (isGoButtonClicked) {
                 val ttsRequestStart = create("Distance = ${distance.toInt()}", false)
@@ -2488,6 +2482,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                 hasSpeak = true
             }
             tvPosition.text = "Distance = ${distance.toInt()}"
-        }
+        }*/
     }
 }
