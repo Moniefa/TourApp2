@@ -63,6 +63,9 @@ import kotlinx.android.synthetic.main.group_buttons.*
 import kotlinx.android.synthetic.main.group_map_and_movement.*
 import kotlinx.android.synthetic.main.group_resources.*
 import kotlinx.android.synthetic.main.group_settings_and_status.*
+import org.json.JSONObject
+import org.w3c.dom.Text
+
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -110,7 +113,25 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
     private var ttsStatus: String = ""
 
-    private val ttsList = arrayOf("This is my Home Base, it is my everything", "This is the door to E029, its all ive ever known", "This is the center of the room, and this is Tristan padding extra text into this one for testing purposes alalalalala", "This is my hiding spot, dont tell anybody!",  "this is called comeback because this is where we work so they wanted me to 'comeback'")
+//    private val ttsList = arrayOf("This is my Home Base, it is my everything",
+//                                "This is the door to E029, its all ive ever known",
+//                                "This is the center of the room, and this is Tristan padding extra text into this one for testing purposes alalalalala",
+//                                "This is my hiding spot, dont tell anybody!",  "this is called comeback because this is where we work so they wanted me to 'comeback'",
+//                                "this is called comeback because this is where we work so they wanted me to 'comeback'",
+//                                "this is called comeback because this is where we work so they wanted me to 'comeback'",
+//                                "this is called comeback because this is where we work so they wanted me to 'comeback'")
+//
+//    private val locationsDescription = mapOf(
+//        "home base" to "We arrived at home base",
+//        "entrance" to "We arrived at entrance",
+//        "sharpener" to "We arrived at sharpener",
+//        "red" to "We arrived at red",
+//        "corner" to "We arrived at corner",
+//        "hall" to "We arrived at hall",
+//        "center" to "We arrived at center"
+//    )
+    private lateinit var locationsObj: JSONObject
+    private lateinit var locationDescription: String
 
 
 
@@ -162,6 +183,37 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         debugReceiver = TemiBroadcastReceiver()
         registerReceiver(debugReceiver, IntentFilter(TemiBroadcastReceiver.ACTION_DEBUG));
 
+
+        //val languages = arrayOf("English", "Spanish", "French", "German")
+
+
+        //val spinner : Spinner = findViewById(R.id.spinner)
+
+//        if (spinner != null) {
+//            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
+//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//            spinner.adapter = adapter;
+//
+//            spinner.onItemSelectedListener = object :
+//                AdapterView.OnItemSelectedListener {
+//                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+//                    Toast.makeText(this@MainActivity,
+//                        getString(R.string.selected_item) + " " +
+//                                "" + languages[position], Toast.LENGTH_SHORT).show()
+//                }
+//
+//                override fun onNothingSelected(parent: AdapterView<*>) {
+//                    // write code to perform some action
+//                } HERE ARE MORE CHANGES FOR TESTING
+//            }
+//        }
+        // Initialize variables for locations dictionary
+        val inputStream = resources.openRawResource(R.raw.location_description)
+        val jsonString = inputStream.bufferedReader().use { it.readText() }
+        val jsonObject = JSONObject(jsonString)
+        locationsObj = jsonObject.getJSONObject("locations")
+        locationDescription = "Unknown Description. Please Add it to dictionary"
+
     }
 
     /**
@@ -179,9 +231,10 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      *
      */
     fun goToTour(){
-        val allLocations = robot.locations;
 
-        Log.d("locations in tour", allLocations.toString())
+        val allLocations = robot.locations;
+        Log.d("LOCATIONS ", allLocations.toString())
+//        Log.d("locations in tour23", jsonObject.toString())
         if(allLocations.isNotEmpty()){
         //create new thread here for all code below
             try{
@@ -195,6 +248,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                     for(i in allLocations.indices){ // should go through every location
                         if(i>0 && !stoppedTour){ //skip it going to home base since home base will always be first location
                                     Log.d("last distance", lastDistanceSaved.toString())
+                                    Log.d("I Location", allLocations[i]);
                                     lastLocation = i
 
                                     if(!stoppedTour){
@@ -226,7 +280,16 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                                             )
                                         }
                                     }
-                                    val ttsRequest = create(ttsList[i], true)
+                                    Log.d("No location ", locationsObj.optString(allLocations[i], ""))
+
+                                    val locationValue = locationsObj.optString(allLocations[i], "")
+                                    Log.d("Current Location ", locationValue)
+                                    if (locationValue.isNotEmpty()) {
+                                        locationDescription = locationValue
+                                    } else {
+                                        locationDescription = "Unknown Description. Please Add it to dictionary"
+                                    }
+                                    val ttsRequest = create(locationDescription, true)
                                     if(!stoppedTour) {
                                         robot.speak(ttsRequest)
                                     }
@@ -320,7 +383,15 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                                     )
                                 }
                             }
-                            val ttsRequest = create(ttsList[i], true)
+
+                            val locationValue = locationsObj.optString(allLocations[i], "")
+                            Log.d("Current Location ", locationValue)
+                            if (locationValue.isNotEmpty()) {
+                                locationDescription = locationValue
+                            } else {
+                                locationDescription = "Unknown Description. Please Add it to dictionary"
+                            }
+                            val ttsRequest = create(locationDescription, true)
                             if(!stoppedTour) {
                                 robot.speak(ttsRequest)
                             }
