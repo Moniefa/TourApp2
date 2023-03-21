@@ -65,12 +65,12 @@ import kotlinx.android.synthetic.main.group_resources.*
 import kotlinx.android.synthetic.main.group_settings_and_status.*
 import org.json.JSONObject
 import org.w3c.dom.Text
+
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 import java.util.concurrent.Executors
-import java.util.concurrent.locks.ReentrantLock
 
 //import kotlinx.coroutines.*
 
@@ -135,6 +135,9 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
 
 
+
+
+
     private val telepresenceStatusChangedListener: OnTelepresenceStatusChangedListener by lazy {
         object : OnTelepresenceStatusChangedListener("") {
             override fun onTelepresenceStatusChanged(callState: CallState) {
@@ -180,6 +183,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         debugReceiver = TemiBroadcastReceiver()
         registerReceiver(debugReceiver, IntentFilter(TemiBroadcastReceiver.ACTION_DEBUG));
 
+
         //val languages = arrayOf("English", "Spanish", "French", "German")
 
 
@@ -209,8 +213,23 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         val jsonObject = JSONObject(jsonString)
         locationsObj = jsonObject.getJSONObject("locations")
         locationDescription = "Unknown Description. Please Add it to dictionary"
+
     }
 
+    /**
+     * When called goToTour() first gets all the locations from temi.
+     *
+     * Then it checks to see if that list is empty, if it isnt empty it continues with the code.
+     *
+     * From there it enters a separate thread and calls the UI thread to turn off the start tour button
+     * so that way we dont accidentally start multiple of the same threads.
+     *
+     * Then it resets the stoppedTour variable to false.
+     *
+     * then it enters a for loop for every location index in allLocations.
+     *
+     *
+     */
     fun goToTour(){
 
         val allLocations = robot.locations;
@@ -252,6 +271,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                                             if(stoppedTour) {
                                                 break@global
                                             }
+                                            Log.d("current stoppedTour status", " " + stoppedTour);
                                             //add if statement that breaks out if stop clicked
                                             Thread.sleep(500)
                                             Log.d(
@@ -295,7 +315,13 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                     }
                     runOnUiThread{
                         button.isEnabled = true
+                        if(allLocations[lastLocation]==allLocations[allLocations.size-1] && !stoppedTour){
+                            Log.d("BUTTON CHANGE","we made it here")
+                            button.text = "Start Tour"
+                            Log.d(" post BUTTON CHANGE","we made it here")
+                        }
                     }
+
 
                     //lock.unlock()
                 }
@@ -342,12 +368,13 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                             Log.d("last distance2", lastDistanceSaved.toString())
 //                                    Thread.sleep(2500)
                             globalStatus = ""
-                            globalStatus = ""
+
                             if(!stoppedTour) {
                                 global@ while(!(globalStatus.equals("complete"))) {
                                     if(stoppedTour) {
                                         break@global
                                     }
+                                    Log.d("current stoppedTour status", " " + stoppedTour);
                                     //add if statement that breaks out if stop clicked
                                     Thread.sleep(500)
                                     Log.d(
@@ -395,7 +422,14 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                     }
                     runOnUiThread{
                         button.isEnabled = true
+                        if(allLocations[lastLocation]==allLocations[allLocations.size-1] && !stoppedTour){
+                            Log.d("BUTTON CHANGE","we made it here")
+                            button.text = "Start Tour"
+                            Log.d(" post BUTTON CHANGE","we made it here")
+                        }
                     }
+
+
                     //lock.unlock()
                 }
                 goTourThread.start();
@@ -413,6 +447,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
 
     fun onTour(view: View){
+        button.text = "Continue Tour"
         val allLocations = robot.locations;
         Log.d("locations in tour", allLocations.toString())
 
@@ -1400,6 +1435,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
     override fun onBeWithMeStatusChanged(status: String) {
         //  When status changes to "lock" the robot recognizes the user and begin to follow.
+
         printLog("BeWithMeStatus: $status")
     }
 
@@ -2495,7 +2531,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
 //        val ttsRequest = create("Cool beans", true)
 //        robot.speak(ttsRequest)
-
+        /*
         runOnUiThread {
             if (isGoButtonClicked) {
                 val ttsRequestStart = create("Distance = ${distance.toInt()}", false)
@@ -2517,6 +2553,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                 hasSpeak = true
             }
             tvPosition.text = "Distance = ${distance.toInt()}"
-        }
+        }*/
     }
 }
