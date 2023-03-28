@@ -150,13 +150,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //val testButton = findViewById<Button>(R.id.rounded_button)
-        //testButton.setBackgroundResource(R.drawable.rounded_button)
-//        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-//        verifyStoragePermissions(this)
+
         robot = getInstance()
-       // initOnClickListener()
-        //tvLog.movementMethod = ScrollingMovementMethod.getInstance()
         robot.addOnRequestPermissionResultListener(this)
         robot.addOnTelepresenceEventChangedListener(this)
         robot.addOnFaceRecognizedListener(this)
@@ -183,13 +178,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         debugReceiver = TemiBroadcastReceiver()
         registerReceiver(debugReceiver, IntentFilter(TemiBroadcastReceiver.ACTION_DEBUG));
 
-
-        //val languages = arrayOf("English", "Spanish", "French", "German")
-
-
-        //val spinner : Spinner = findViewById(R.id.spinner)
-
-
         // Initialize variables for locations dictionary
         val inputStream = resources.openRawResource(R.raw.location_description)
         val jsonString = inputStream.bufferedReader().use { it.readText() }
@@ -211,7 +199,34 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      *
      * then it enters a for loop for every location index in allLocations.
      *
+     * then it goes through all locations that are greater than 0 cause that index is the home base, and it also checks if stoppedTour is true
      *
+     * then it prints the location to the screen
+     *
+     * next it calls the built in goTo function to send the robot to the location
+     *
+     * we then set globalStatus to an empty string, this is because in the onGoToLocationStatusChanged event listener
+     * there is a status for temi going to locations, so to avoid there being a status left in the variable from the last run we always
+     * reset it back to blank.
+     *
+     * now there is another check for if the stop button has been pressed and we then enter a while loop where the condition is
+     * globalStatus doesnt equal complete (meaning it arrived at a location). where in the loop we are checking if the stop button is pressed
+     *
+     * after it arrives at a location it will exit the while loop and move on to the tts where we look into our dictionary for the location
+     * and if there is an equivalent location it grabs the description for that location and if there isnt it defaults to a no location found
+     * message
+     *
+     * one more check for if stop buttons been pressed
+     *
+     * then you create the tts request variable and have have temi speak it using te built in .speak() function
+     *
+     * similar to globalStatus we have a variable called ttsStatus that we set to an empty string
+     * that changes in the onTtsStatusChanged event listener.
+     *
+     * after a stop button check we go into a while loop that waits for the ttsStatus to be complete
+     *
+     * this repeats until the stop button is press or the tour is over. where it then reenables the tour button on screen
+     * where if the tour finished the button still says start tour but if the stop button was press it says continue tour
      */
     fun goToTour(){
 
@@ -221,9 +236,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         if(allLocations.isNotEmpty()){
         //create new thread here for all code below
             try{
-                //val lock = ReentrantLock()
                 val goTourThread = Thread {
-                    //lock.lock()
                     runOnUiThread{
                         button.isEnabled = false
                     }
@@ -249,11 +262,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                                         )
                                     }
 
-                                  
-                                    //TODO: setting the location on the screen
-
                                     Log.d("last distance2", lastDistanceSaved.toString())
-//                                    Thread.sleep(2500)
                                     globalStatus = ""
                                     if(!stoppedTour) {
                                         global@ while(!(globalStatus.equals("complete"))) {
@@ -262,7 +271,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                                             }
                                             Log.d("current stoppedTour status", " " + stoppedTour);
                                             //add if statement that breaks out if stop clicked
-                                            Thread.sleep(500)
+                                            Thread.sleep(500)//wait a bit so you dont spam logcat
                                             Log.d(
                                                 "current globalStatus",
                                                 "current globalStatus = " + globalStatus
@@ -278,6 +287,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                                     } else {
                                         locationDescription = "Unknown Description. Please Add it to dictionary"
                                     }
+
                                     val ttsRequest = create(locationDescription, true)
                                     if(!stoppedTour) {
                                         robot.speak(ttsRequest)
@@ -312,7 +322,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                     }
 
 
-                    //lock.unlock()
                 }
                 goTourThread.start();
 
