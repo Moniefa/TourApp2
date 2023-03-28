@@ -247,6 +247,12 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                     stoppedTour = false
                     for(i in allLocations.indices){ // should go through every location
                         if(i>0 && !stoppedTour){ //skip it going to home base since home base will always be first location
+                                    val tvLocation: TextView = findViewById(R.id.tvLocation)
+
+                                    runOnUiThread{
+                                        tvLocation.text = "Location: ${allLocations[i]}"
+                                    }
+
                                     Log.d("last distance", lastDistanceSaved.toString())
                                     Log.d("I Location", allLocations[i]);
                                     lastLocation = i
