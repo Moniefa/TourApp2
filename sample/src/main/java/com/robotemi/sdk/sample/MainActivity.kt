@@ -189,24 +189,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
         //val spinner : Spinner = findViewById(R.id.spinner)
 
-//        if (spinner != null) {
-//            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
-//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//            spinner.adapter = adapter;
-//
-//            spinner.onItemSelectedListener = object :
-//                AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-//                    Toast.makeText(this@MainActivity,
-//                        getString(R.string.selected_item) + " " +
-//                                "" + languages[position], Toast.LENGTH_SHORT).show()
-//                }
-//
-//                override fun onNothingSelected(parent: AdapterView<*>) {
-//                    // write code to perform some action
-//                } HERE ARE MORE CHANGES FOR TESTING
-//            }
-//        }
+
         // Initialize variables for locations dictionary
         val inputStream = resources.openRawResource(R.raw.location_description)
         val jsonString = inputStream.bufferedReader().use { it.readText() }
