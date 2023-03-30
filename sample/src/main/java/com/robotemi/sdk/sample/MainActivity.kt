@@ -213,8 +213,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      * where if the tour finished the button still says start tour but if the stop button was press it says continue tour
      */
     fun goToTour(allLocations: List<String>){
-
-
+        
         Log.d("LOCATIONS ", allLocations.toString())
 //        Log.d("locations in tour23", jsonObject.toString())
         if(allLocations.isNotEmpty()){
@@ -305,7 +304,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                         }
                     }
 
-
                 }
                 goTourThread.start();
 
@@ -313,8 +311,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                 e.printStackTrace()
                 printLog(e.message ?: "")
             }
-
-
 
         }
     }
@@ -363,7 +359,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      * where if the tour finished the button still says start tour but if the stop button was press it says continue tour
      */
     fun goToTour(allLocations: List<String>, lastLoc: Int){
-
 
         Log.d("locations in tour", allLocations.toString())
 
@@ -448,8 +443,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                 printLog(e.message ?: "")
             }
 
-
-
         }
     }
 
@@ -475,8 +468,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                goToTour(allLocations,lastLocation)
            } else{
                 goToTour(allLocations)
-            }
-
+           }
 
         }
     }
