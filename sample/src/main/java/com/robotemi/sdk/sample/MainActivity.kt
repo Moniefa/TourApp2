@@ -72,7 +72,6 @@ import java.io.IOException
 import java.util.*
 import java.util.concurrent.Executors
 
-//import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     ConversationViewAttachesListener, WakeupWordListener, ActivityStreamPublishListener,
@@ -113,23 +112,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
     private var ttsStatus: String = ""
 
-//    private val ttsList = arrayOf("This is my Home Base, it is my everything",
-//                                "This is the door to E029, its all ive ever known",
-//                                "This is the center of the room, and this is Tristan padding extra text into this one for testing purposes alalalalala",
-//                                "This is my hiding spot, dont tell anybody!",  "this is called comeback because this is where we work so they wanted me to 'comeback'",
-//                                "this is called comeback because this is where we work so they wanted me to 'comeback'",
-//                                "this is called comeback because this is where we work so they wanted me to 'comeback'",
-//                                "this is called comeback because this is where we work so they wanted me to 'comeback'")
-//
-//    private val locationsDescription = mapOf(
-//        "home base" to "We arrived at home base",
-//        "entrance" to "We arrived at entrance",
-//        "sharpener" to "We arrived at sharpener",
-//        "red" to "We arrived at red",
-//        "corner" to "We arrived at corner",
-//        "hall" to "We arrived at hall",
-//        "center" to "We arrived at center"
-//    )
     private lateinit var locationsObj: JSONObject
     private lateinit var locationDescription: String
 
@@ -335,7 +317,51 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         }
     }
 
-
+    /**
+     * When called goToTour() first gets all the locations from temi.
+     *
+     * The variable passed is the global variable for lastLocation which is saved in the other goToTour() which
+     * is just a number for an index
+     *
+     * Then it checks to see if that list is empty, if it isnt empty it continues with the code.
+     *
+     * From there it enters a separate thread and calls the UI thread to turn off the start tour button
+     * so that way we dont accidentally start multiple of the same threads.
+     *
+     * Then it resets the stoppedTour variable to false.
+     *
+     * then it enters a for loop for every location index in allLocations.
+     *
+     * then it goes through all locations that are greater than lastLoc because that index is the last location the tour
+     * was stopped at, and it also checks if stoppedTour is true
+     *
+     * then it prints the location to the screen
+     *
+     * next it calls the built in goTo function to send the robot to the location
+     *
+     * we then set globalStatus to an empty string, this is because in the onGoToLocationStatusChanged event listener
+     * there is a status for temi going to locations, so to avoid there being a status left in the variable from the last run we always
+     * reset it back to blank.
+     *
+     * now there is another check for if the stop button has been pressed and we then enter a while loop where the condition is
+     * globalStatus doesnt equal complete (meaning it arrived at a location). where in the loop we are checking if the stop button is pressed
+     *
+     * after it arrives at a location it will exit the while loop and move on to the tts where we look into our dictionary for the location
+     * and if there is an equivalent location it grabs the description for that location and if there isnt it defaults to a no location found
+     * message
+     *
+     * one more check for if stop buttons been pressed
+     *
+     * then you create the tts request variable and have have temi speak it using te built in .speak() function
+     *
+     * similar to globalStatus we have a variable called ttsStatus that we set to an empty string
+     * that changes in the onTtsStatusChanged event listener.
+     *
+     * after a stop button check we go into a while loop that waits for the ttsStatus to be complete
+     *
+     * this repeats until the stop button is press or the tour is over. where it then reenables the tour button on screen
+     * where if the tour finished the button still says start tour but if the stop button was press it says continue tour
+     */
     fun goToTour(lastLoc: Int){
         val allLocations = robot.locations;
 
@@ -344,9 +370,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         if(allLocations.isNotEmpty()){
             //create new thread here for all code below
             try{
-                //val lock = ReentrantLock()
                 val goTourThread = Thread {
-                    //lock.lock()
                     runOnUiThread{
                         button.isEnabled = false
                     }
@@ -364,7 +388,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                             }
 
                             Log.d("last distance2", lastDistanceSaved.toString())
-//                                    Thread.sleep(2500)
                             globalStatus = ""
 
                             if(!stoppedTour) {
@@ -403,20 +426,10 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                                     Log.d("TTS status", "Status" + ttsStatus)
                                     Thread.sleep(500)
                                 }
-
                             }
-
-
                         }
-//                            Thread.sleep(5000)
-//                            println("okay ==")
-
-
-                        //call OnGoToLocationStatusChangedListener{}
 
                         println("after goTo()" + i.toString())
-
-
                     }
                     runOnUiThread{
                         button.isEnabled = true
@@ -427,8 +440,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                         }
                     }
 
-
-                    //lock.unlock()
                 }
                 goTourThread.start();
 
@@ -443,7 +454,17 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     }
 
 
-
+    /**
+     * This method is called when the Start Tour button is press
+     *
+     * it then automatically sets the text to continue tour
+     *
+     * then it grabs a list of locations and checks the length of that array,
+     * if it is 0 nothing happens but if there is locations in that array it then checks if stoppedTour is true
+     * and calls the appropriate function
+     *
+     * goToTour() starts at the lowest index whereas goToTour(lastLocation) starts at the location at index lastLocation
+     */
     fun onTour(view: View){
         button.text = "Continue Tour"
         val allLocations = robot.locations;
@@ -616,221 +637,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
             unregisterReceiver(debugReceiver)
         }
         super.onDestroy()
-    }
-
-    private fun initOnClickListener() {
-//        btnGroupSystem.setOnCheckedChangeListener { _, isChecked ->
-//            if (isChecked) {
-//                //group_settings_and_status.visibility = View.VISIBLE
-//                btnGroupSystem.isEnabled = false
-//                btnGroupNavigation.isChecked = false
-//                btnGroupPermission.isChecked = false
-//                btnGroupResources.isChecked = false
-//            } else {
-//                //group_settings_and_status.visibility = View.GONE
-//                btnGroupSystem.isEnabled = true
-//            }
-//        }
-//        btnGroupNavigation.setOnCheckedChangeListener { _, isChecked ->
-//            if (isChecked) {
-//                //group_map_and_movement.visibility = View.VISIBLE
-//                btnGroupSystem.isChecked = false
-//                btnGroupNavigation.isEnabled = false
-//                btnGroupPermission.isChecked = false
-//                btnGroupResources.isChecked = false
-//            } else {
-//                //group_map_and_movement.visibility = View.GONE
-//                btnGroupNavigation.isEnabled = true
-//            }
-//        }
-//        btnGroupPermission.setOnCheckedChangeListener { _, isChecked ->
-//            if (isChecked) {
-//                //group_app_and_permission.visibility = View.VISIBLE
-//                btnGroupSystem.isChecked = false
-//                btnGroupNavigation.isChecked = false
-//                btnGroupPermission.isEnabled = false
-//                btnGroupResources.isChecked = false
-//            } else {
-//                //group_app_and_permission.visibility = View.GONE
-//                btnGroupPermission.isEnabled = true
-//            }
-//        }
-//        btnGroupResources.setOnCheckedChangeListener { _, isChecked ->
-//            if (isChecked) {
-//                //group_resources.visibility = View.VISIBLE
-//                btnGroupSystem.isChecked = false
-//                btnGroupNavigation.isChecked = false
-//                btnGroupPermission.isChecked = false
-//                btnGroupResources.isEnabled = false
-//            } else {
-//                //group_resources.visibility = View.GONE
-//                btnGroupResources.isEnabled = true
-//            }
-//        }
-//
-//        val mediaPlayer = MediaPlayer()
-//
-//        btnGroupSystem.isChecked = true
-//
-////        btnSpeak.setOnClickListener { speak() }
-////        btnSaveLocation.setOnClickListener { saveLocation() }
-////        btnGoTo.setOnClickListener { goTo() }
-//
-//        btnStopMovement.setOnClickListener { stopMovement() }
-//        btnFollow.setOnClickListener { followMe() }
-//        btnskidJoy.setOnClickListener { skidJoy() }
-//        btnTiltAngle.setOnClickListener { tiltAngle() }
-//        btnTiltBy.setOnClickListener { tiltBy() }
-//        btnTurnBy.setOnClickListener { turnBy() }
-//        btnBatteryInfo.setOnClickListener { getBatteryData() }
-//        btnSavedLocations.setOnClickListener { savedLocationsDialog() }
-//        btnCallOwner.setOnClickListener { callOwner() }
-//        btnPublish.setOnClickListener { publishToActivityStream() }
-//        btnHideTopBar.setOnClickListener { hideTopBar() }
-//        btnShowTopBar.setOnClickListener { showTopBar() }
-//        btnDisableWakeup.setOnClickListener { disableWakeup() }
-//        btnEnableWakeup.setOnClickListener { enableWakeup() }
-//        btnToggleNavBillboard.setOnClickListener { toggleNavBillboard() }
-//        btnTogglePrivacyModeOn.setOnClickListener { privacyModeOn() }
-//        btnTogglePrivacyModeOff.setOnClickListener { privacyModeOff() }
-//        btnGetPrivacyMode.setOnClickListener { getPrivacyModeState() }
-//        btnEnableHardButtons.setOnClickListener { enableHardButtons() }
-//        btnDisableHardButtons.setOnClickListener { disableHardButtons() }
-//        btnIsHardButtonsDisabled.setOnClickListener { isHardButtonsEnabled() }
-//        btnGetOSVersion.setOnClickListener { getOSVersion() }
-//        btnCheckFace.setOnClickListener { requestFace() }
-//        btnCheckMap.setOnClickListener { requestMap() }
-//        btnCheckSettings.setOnClickListener { requestSettings() }
-//        btnCheckSequence.setOnClickListener { requestSequence() }
-//        btnCheckMeetings.setOnClickListener { requestMeetings() }
-//        btnCheckAllPermission.setOnClickListener { requestAll() }
-//        btnStartFaceRecognition.setOnClickListener { startFaceRecognition() }
-//        btnStopFaceRecognition.setOnClickListener { stopFaceRecognition() }
-//        btnSetUserInteractionON.setOnClickListener {
-//            val ret = robot.setInteractionState(true)
-//            Log.d("MainActivity", "Set user interaction $ret")
-//            mediaPlayer.setVolume(1f, 1f)
-//            mediaPlayer.isLooping = false
-//            mediaPlayer.setOnCompletionListener {
-//                robot.setInteractionState(false)
-//            }
-//            if (!mediaPlayer.isPlaying) {
-//                val descriptor: AssetFileDescriptor = assets.openFd("Lorem-ipsum.mp3")
-//                mediaPlayer.setDataSource(
-//                    descriptor.fileDescriptor,
-//                    descriptor.startOffset,
-//                    descriptor.length
-//                )
-//                descriptor.close()
-//                mediaPlayer.prepare()
-//                mediaPlayer.start()
-//            }
-//        }
-//        btnSetUserInteractionOFF.setOnClickListener {
-//            robot.setInteractionState(false)
-//            mediaPlayer.stop()
-//            mediaPlayer.reset()
-//        }
-//        btnSetGoToSpeed.setOnClickListener { setGoToSpeed() }
-//        btnSetGoToSafety.setOnClickListener { setGoToSafety() }
-//        btnToggleTopBadge.setOnClickListener { toggleTopBadge() }
-//        btnToggleDetectionMode.setOnClickListener { toggleDetectionMode() }
-//        btnToggleAutoReturn.setOnClickListener { toggleAutoReturn() }
-//        btnTrackUser.setOnClickListener { toggleTrackUser() }
-//        btnGetVolume.setOnClickListener { getVolume() }
-//        btnSetVolume.setOnClickListener { setVolume() }
-//        btnRequestToBeKioskApp.setOnClickListener { requestToBeKioskApp() }
-//        //btnStartDetectionModeWithDistance.setOnClickListener { startDetectionWithDistance() }
-//        btnFetchSequence.setOnClickListener { getAllSequences() }
-//        btnPlayFirstSequence.setOnClickListener { playFirstSequence() }
-//        btnPlayFirstSequenceWithoutPlayer.setOnClickListener { playFirstSequenceWithoutPlayer() }
-//        btnFetchMap.setOnClickListener { getMap() }
-//        //btnClearLog.setOnClickListener { clearLog() }
-//        //btnNlu.setOnClickListener { startNlu() }
-//        btnGetAllContacts.setOnClickListener { getAllContacts() }
-//        //btnGoToPosition.setOnClickListener { goToPosition() }
-//        btnStartTelepresenceToCenter.setOnClickListener { startTelepresenceToCenter() }
-//        btnCreateLinkBasedMeeting.setOnClickListener {
-//            if (requestPermissionIfNeeded(Permission.MEETINGS, REQUEST_CODE_NORMAL)) {
-//                // Permission not granted yet.
-//            } else {
-//                val request = LinkBasedMeeting(
-//                    topic = "temi Demo Meeting",
-//                    availability = LinkBasedMeeting.Availability(
-//                        start = Date(),
-//                        end = Date(Date().time + 86400000),
-//                        always = false,
-//                    ),
-//                    limit = LinkBasedMeeting.Limit(
-//                        callDuration = LinkBasedMeeting.CallDuration.MINUTE_10,
-//                        usageLimit = LinkBasedMeeting.UsageLimit.NO_LIMIT,
-//                    ),
-//                    permission = LinkBasedMeeting.Permission.DEFAULT,
-//                    security = LinkBasedMeeting.Security(
-//                        password = "1122334455", // Should use a 1 to 10-digits password.
-//                        hasPassword = false
-//                    )
-//                )
-//                thread {
-//                    val (code, linkUrl) = robot.createLinkBasedMeeting(request)
-//                    printLog("Link create request, response code $code, link $linkUrl")
-//                }
-//            }
-//        }
-//        btnStartPage.setOnClickListener { startPage() }
-//        btnRestart.setOnClickListener { restartTemi() }
-//        btnGetMembersStatus.setOnClickListener { getMembersStatus() }
-//        btnRepose.setOnClickListener { repose() }
-//        btnGetMapList.setOnClickListener { getMapListBtn() }
-//        btnLoadMap.setOnClickListener { loadMap() }
-//        btnLoadMapToCache.setOnClickListener { loadMapToCache() }
-//        btnLoadMapOffline.setOnClickListener { loadMap(false, null, true) }
-//        btnLoadMapWithoutUI.setOnClickListener { loadMap(false, null, offline = false, withoutUI = true) }
-//        btnLock.setOnClickListener { lock() }
-//        btnUnlock.setOnClickListener { unlock() }
-//        btnMuteAlexa.setOnClickListener { muteAlexa() }
-//        btnShutdown.setOnClickListener { shutdown() }
-//        btnLoadMapWithPosition.setOnClickListener { loadMapWithPosition() }
-//        btnLoadMapWithReposePosition.setOnClickListener { loadMapWithReposePosition() }
-//        btnLoadMapWithRepose.setOnClickListener { loadMapWithRepose() }
-//        btnSetSoundMode.setOnClickListener { setSoundMode() }
-//        btnSetHardBtnMainMode.setOnClickListener { setHardBtnMainMode() }
-//        btnToggleHardBtnPower.setOnClickListener { toggleHardBtnPower() }
-//        btnToggleHardBtnVolume.setOnClickListener { toggleHardBtnVolume() }
-//        btnGetNickName.setOnClickListener { getNickName() }
-//        btnSetMode.setOnClickListener { setMode() }
-//        btnGetMode.setOnClickListener { getMode() }
-//        btnToggleKioskMode.setOnClickListener { toggleKiosk() }
-//        btnIsKioskModeOn.setOnClickListener { isKioskModeOn() }
-//        btnEnabledLatinKeyboards.setOnClickListener { enabledLatinKeyboards() }
-//        btnGetSupportedKeyboard.setOnClickListener { getSupportedLatinKeyboards() }
-//        btnToggleGroundDepthCliff.setOnClickListener { toggleGroundDepthCliff() }
-//        btnIsGroundDepthCliff.setOnClickListener { isGroundDepthCliffEnabled() }
-//        btnHasCliffSensor.setOnClickListener { hasCliffSensor() }
-//        btnSetCliffSensorMode.setOnClickListener { setCliffSensorMode() }
-//        btnGetCliffSensorMode.setOnClickListener { getCliffSensorMode() }
-//        btnSetHeadDepthSensitivity.setOnClickListener { setHeadDepthSensitivity() }
-//        btnGetHeadDepthSensitivity.setOnClickListener { getHeadDepthSensitivity() }
-//        btnToggleFrontTOF.setOnClickListener { toggleFrontTOF() }
-//        btnIsFrontTOFEnabled.setOnClickListener { isFrontTOFEnabled() }
-//        btnToggleBackTOF.setOnClickListener { toggleBackTOF() }
-//        btnIsBackTOFEnabled.setOnClickListener { isBackTOFEnabled() }
-//        btnGetAllFloors.setOnClickListener { getAllFloors() }
-//        btnLoadFloorAtElevator.setOnClickListener { loadFloorAtElevator() }
-//        btnGetCurrentFloor.setOnClickListener {
-//            getCurrentFloor()
-//        }
-//        btnGetTts.setOnClickListener { getTts() }
-//        btnSetTts.setOnClickListener { setTts() }
-//        btnSerial.setOnClickListener { startActivity(Intent(this, SerialActivity::class.java)) }
-//        btnWebpage.setOnClickListener {
-//            val intent = Intent().setClassName("com.robotemi.browser", "com.robotemi.browser.MainActivity")
-//            intent.putExtra("url", "https://github.com")
-//            intent.putExtra("source", "intent")
-//            intent.putExtra("navBar", "SHOW")
-//            intent.putExtra("reset", "OFF")
-//            startActivity(intent)
-//        }
     }
 
     private fun getCurrentFloor() {
