@@ -120,6 +120,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
 
 
+
+
     private val telepresenceStatusChangedListener: OnTelepresenceStatusChangedListener by lazy {
         object : OnTelepresenceStatusChangedListener("") {
             override fun onTelepresenceStatusChanged(callState: CallState) {
@@ -170,9 +172,9 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     }
 
     /**
-     * When called goToTour() first gets all the locations from temi.
+     * The Variable passed is a list of allLocations
      *
-     * Then it checks to see if that list is empty, if it isnt empty it continues with the code.
+     * It then checks to see if that list is empty, if it isnt empty it continues with the code.
      *
      * From there it enters a separate thread and calls the UI thread to turn off the start tour button
      * so that way we dont accidentally start multiple of the same threads.
@@ -210,9 +212,9 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      * this repeats until the stop button is press or the tour is over. where it then reenables the tour button on screen
      * where if the tour finished the button still says start tour but if the stop button was press it says continue tour
      */
-    fun goToTour(){
+    fun goToTour(allLocations: List<String>){
 
-        val allLocations = robot.locations;
+
         Log.d("LOCATIONS ", allLocations.toString())
 //        Log.d("locations in tour23", jsonObject.toString())
         if(allLocations.isNotEmpty()){
@@ -318,12 +320,10 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
     }
 
     /**
-     * When called goToTour() first gets all the locations from temi.
+     * The variables passed are the global variable for lastLocation which is saved in the other goToTour() which
+     * is just a number for an index, and the list of locations
      *
-     * The variable passed is the global variable for lastLocation which is saved in the other goToTour() which
-     * is just a number for an index
-     *
-     * Then it checks to see if that list is empty, if it isnt empty it continues with the code.
+     * It then checks to see if that list is empty, if it isnt empty it continues with the code.
      *
      * From there it enters a separate thread and calls the UI thread to turn off the start tour button
      * so that way we dont accidentally start multiple of the same threads.
@@ -362,8 +362,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      * this repeats until the stop button is press or the tour is over. where it then reenables the tour button on screen
      * where if the tour finished the button still says start tour but if the stop button was press it says continue tour
      */
-    fun goToTour(lastLoc: Int){
-        val allLocations = robot.locations;
+    fun goToTour(allLocations: List<String>, lastLoc: Int){
+
 
         Log.d("locations in tour", allLocations.toString())
 
@@ -472,9 +472,9 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
 
         if(allLocations.isNotEmpty()){
             if(stoppedTour) {
-               goToTour(lastLocation)
+               goToTour(allLocations,lastLocation)
            } else{
-                goToTour()
+                goToTour(allLocations)
             }
 
 
