@@ -489,19 +489,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         robot.stopMovement()
         stoppedTour = true
 
-//        val ttsRequest =
-//            create( " We have arrived at _____ location", true)
-//        robot.speak(ttsRequest) // do you guys want this?
-    }
 
-//    override fun onDistanceToDestinationChanged(location: String, distance: Float): Boolean {
-//        if (robot.onDistanceToDestinationChangedListeners.isEmpty()) return false
-//        uiHandler.post {
-//            for (listener in robot.onDistanceToDestinationChangedListeners) {
-//                listener.onDistanceToDestinationChanged(location, distance)
-//            }
-//        }
-//        return true
+    }
 
     fun onGoFunctionUsingLabels(view: View) {
         isGoButtonClicked = true
@@ -521,22 +510,6 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
         Log.d("GO to Location", "Test")
     }
 
-
-    fun onGoFunctionUsingCords(view: View) {
-        val allLocations = robot.locations;     // Gets all the current locations from the pre-determined list
-        //val spinnerLocations = spinner.selectedItem     // This maybe gets items from the dropdown list
-        Log.d("Getting all locations: ", allLocations.toString());
-        //Log.d("Getting all locations: ", spinnerLocations.toString());
-        if (allLocations.isNotEmpty()) {
-            try{
-                goToPosition()
-            }catch (e: Exception) {
-                e.printStackTrace()
-                printLog(e.message ?: "")
-            }
-        }
-        Log.d("GO to Location", "Test")
-    }
     /**
      * Setting up all the event listeners
      */
