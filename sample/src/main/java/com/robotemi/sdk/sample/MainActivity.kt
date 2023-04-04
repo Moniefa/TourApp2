@@ -959,6 +959,8 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      */
     private fun goTo() {
         for (location in robot.locations) {
+            /*
+            this is code from master where go button is a thing
             if (location == etGoTo.text.toString().lowercase()
                     .trim { it <= ' ' }
             ) {
@@ -970,6 +972,14 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                 )
                 hideKeyboard()
             }
+
+             */
+            robot.goTo(
+                location,
+                backwards = false,
+                noBypass = false,
+                speedLevel = SpeedLevel.MEDIUM
+            )
         }
     }
 
