@@ -213,7 +213,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
      * where if the tour finished the button still says start tour but if the stop button was press it says continue tour
      */
     fun goToTour(allLocations: List<String>){
-        
+
         Log.d("LOCATIONS ", allLocations.toString())
 //        Log.d("locations in tour23", jsonObject.toString())
         if(allLocations.isNotEmpty()){
@@ -290,7 +290,7 @@ class MainActivity : AppCompatActivity(), NlpListener, OnRobotReadyListener,
                                     //Thread.sleep(500)
                                     //while(tts.getStatus())
                             }
-//
+
                             println("after goTo()" + i.toString())
 
 
